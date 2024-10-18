@@ -10,4 +10,9 @@ defmodule GregslistWeb.PageController do
   def index(conn, _params) do
   render(conn, :index)
   end
+
+  def gregslist(conn, _params) do
+  render(conn, :gregslist)
+  end
+
 end
