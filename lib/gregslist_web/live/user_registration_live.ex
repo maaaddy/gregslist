@@ -33,6 +33,9 @@ defmodule GregslistWeb.UserRegistrationLive do
 
         <.input field={@form[:email]} type="email" label="Email" required />
         <.input field={@form[:password]} type="password" label="Password" required />
+        <.input field={@form[:username]} type="text" label="Username" required />
+        <.input field={@form[:dob]} type="date" label="Date of Birth" required />
+        <.input field={@form[:zipcode]} type="text" label="Zipcode" required />
 
         <:actions>
           <.button phx-disable-with="Creating account..." class="w-full">Create an account</.button>
