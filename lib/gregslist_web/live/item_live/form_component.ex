@@ -33,7 +33,7 @@ defmodule GregslistWeb.ItemLive.FormComponent do
 
   @impl true
   def update(%{item: item} = assigns, socket) do
-  changeset = Galleries.change_item(item)
+    # changeset = Galleries.change_item(item)
     {:ok,
      socket
      |> assign(assigns)
