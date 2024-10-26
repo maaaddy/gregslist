@@ -1,0 +1,26 @@
+<div class="flex flex-col p-4 bg-pink-100 rounded-md shadow-md">
+  <h1 class="text-2xl font-bold mb-4 text-center">Live Chat</h1>
+  
+  <div class="messages border border-gray-300 rounded-md h-96 overflow-y-auto mb-4 p-2 bg-white">
+    <%= for m <- @messages do %>
+      <p class="mb-1">
+        <b class="text-pink-600"><%= m.name %>:</b> <%= m.text %>
+      </p>
+    <% end %>
+  </div>
+  
+  <form phx-submit="send" class="flex">
+    <input 
+      type="text" 
+      name="text" 
+      class="flex-grow p-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-pink-500" 
+      placeholder="Type your message..." 
+      required 
+    />
+    <button 
+      type="submit" 
+      class="bg-pink-600 text-white p-2 rounded-r-md hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-pink-500">
+      Send
+    </button>
+  </form>
+</div>
