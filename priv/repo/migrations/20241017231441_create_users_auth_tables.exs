@@ -6,9 +6,7 @@ defmodule Gregslist.Repo.Migrations.CreateUsersAuthTables do
       add :email, :string, null: false, collate: :nocase
       add :hashed_password, :string, null: false
       add :confirmed_at, :utc_datetime
-      add :username, :string, null: false
-      add :dob, :date, null: false
-      add :zipcode, :integer, null: false
+
 
       timestamps(type: :utc_datetime)
     end
