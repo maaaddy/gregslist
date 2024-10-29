@@ -7,6 +7,7 @@ defmodule Gregslist.Repo.Migrations.CreateUsersAuthTables do
       add :hashed_password, :string, null: false
       add :confirmed_at, :utc_datetime
 
+
       timestamps(type: :utc_datetime)
     end
 
