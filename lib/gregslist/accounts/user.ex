@@ -8,6 +8,9 @@ defmodule Gregslist.Accounts.User do
     field :hashed_password, :string, redact: true
     field :current_password, :string, virtual: true, redact: true
     field :confirmed_at, :utc_datetime
+    field :username, :string
+    field :dob, :date
+    field :zipcode, :integer
 
     timestamps(type: :utc_datetime)
   end
@@ -37,7 +40,7 @@ defmodule Gregslist.Accounts.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email, :password])
+    |> cast(attrs, [:email, :password, :username, :dob, :zipcode])
     |> validate_email(opts)
     |> validate_password(opts)
   end
