@@ -26,6 +26,16 @@ defmodule Gregslist.Accounts do
     Repo.get_by(User, email: email)
   end
 
+  def get_user_by_id(id) do
+    Repo.get(User, id)
+  end
+
+  #This grabs the whole list of users..
+  def list_users do
+    Repo.all(User)
+  end
+
+
   @doc """
   Gets a user by email and password.
 

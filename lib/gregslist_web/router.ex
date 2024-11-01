@@ -78,6 +78,9 @@ defmodule GregslistWeb.Router do
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
       live "/chat", ChatLive.Index, :index
+      live "/users", UserListLive.Index, :index
+      live "/user_chat/:recipient_id", UserChatLive.Index, :index
+
     end
   end
 
