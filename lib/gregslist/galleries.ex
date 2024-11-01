@@ -18,7 +18,7 @@ defmodule Gregslist.Galleries do
 
   """
   def list_items do
-    Repo.all(Item)
+    Repo.all(from i in Item, order_by: [desc: i.location])
   end
 
   @doc """
@@ -53,6 +53,7 @@ defmodule Gregslist.Galleries do
     %Item{}
     |> Item.changeset(attrs)
     |> Repo.insert()
+    |> broadcast(:post_created)
   end
 
   @doc """
@@ -71,6 +72,7 @@ defmodule Gregslist.Galleries do
     item
     |> Item.changeset(attrs)
     |> Repo.update()
+    |> broadcast(:post_updated)
   end
 
   @doc """
@@ -101,4 +103,15 @@ defmodule Gregslist.Galleries do
   def change_item(%Item{} = item, attrs \\ %{}) do
     Item.changeset(item, attrs)
   end
+
+  def subscribe do
+    Phoenix.PubSub.subscribe(Gregslist.PubSub, "items")
+  end
+
+  defp broadcast({:error, _reason} = error, _event), do: :error
+
+defp broadcast({:ok, item}, event) do
+  Phoenix.PubSub.broadcast(Gregslist.PubSub, "items", {event, item})
+end
+
 end
