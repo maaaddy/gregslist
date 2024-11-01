@@ -43,7 +43,7 @@ end
 
   @impl true
   def update(%{item: item} = assigns, socket) do
-  _changeset = Galleries.change_item(item)
+    # changeset = Galleries.change_item(item)
     {:ok,
      socket
      |> assign(assigns)
