@@ -3,8 +3,12 @@ defmodule GregslistWeb.ItemLive.FormComponent do
 
   alias Gregslist.Galleries
 
+  defp render_live_file_input(assigns) do
+  live_file_input(assigns.uploads.art_image)
+end
+
   @impl true
-  def render(assigns) do
+    def render(assigns) do
     ~H"""
     <div>
       <.header>
@@ -20,9 +24,10 @@ defmodule GregslistWeb.ItemLive.FormComponent do
         phx-submit="save"
       >
         <.input field={@form[:item_name]} type="text" label="Item name" />
-        <.input field={@form[:desc]} type="text" label="Desc" />
+        <.input field={@form[:desc]} type="textarea" label="Desc" />
         <.input field={@form[:price]} type="number" label="Price" step="any" />
         <.input field={@form[:location]} type="text" label="Location" />
+        <.input field={@form[:art_image]} type="file" label="Upload Image" />
         <:actions>
           <.button phx-disable-with="Saving...">Save Item</.button>
         </:actions>
@@ -30,6 +35,11 @@ defmodule GregslistWeb.ItemLive.FormComponent do
     </div>
     """
   end
+
+  def mount(socket) do
+    {:ok, allow_upload(socket, :art_image, accept: ~w(.png .jpeg .jpg), max_entries: 3)}
+  end
+
 
   @impl true
   def update(%{item: item} = assigns, socket) do

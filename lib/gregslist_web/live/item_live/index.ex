@@ -4,10 +4,17 @@ defmodule GregslistWeb.ItemLive.Index do
   alias Gregslist.Galleries
   alias Gregslist.Galleries.Item
 
+
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, stream(socket, :items, Galleries.list_items())}
+def mount(_params, _session, socket) do
+  if connected?(socket) do
+    Galleries.subscribe()
   end
+
+  {:ok, stream(socket, :items, Galleries.list_items())}
+end
+
+
 
   @impl true
   def handle_params(params, _url, socket) do
@@ -44,4 +51,18 @@ defmodule GregslistWeb.ItemLive.Index do
 
     {:noreply, stream_delete(socket, :items, item)}
   end
+
+  @impl true
+  def handle_info({item_created, item}, socket) do
+  {:noreply, update(socket, :items, fn items -> [item | items] end)}
+  end
+
+  @impl true
+  def handle_info({item_updated, item}, socket) do
+  {:noreply, update(socket, :items, fn items -> [item | items] end)}
+  end
+
+  defp fetch_items do
+    Galleries.list_items()
+    end
 end
