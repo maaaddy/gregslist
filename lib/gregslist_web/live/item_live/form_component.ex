@@ -24,10 +24,10 @@ end
         phx-submit="save"
       >
         <.input field={@form[:item_name]} type="text" label="Item name" />
+        <.input field={@form[:category]} type="select" options={[{"Furniture", "furniture"}, {"Clothes", "clothes"}, {"Business", "business"}, {"Vehicles", "vehicles"}, {"Technology","technology"},{"Other", "other"}]}  label="Category" />
         <.input field={@form[:desc]} type="textarea" label="Desc" />
         <.input field={@form[:price]} type="number" label="Price" step="any" />
         <.input field={@form[:location]} type="text" label="Location" />
-        <.input field={@form[:art_image]} type="file" label="Upload Image" />
         <:actions>
           <.button phx-disable-with="Saving...">Save Item</.button>
         </:actions>
