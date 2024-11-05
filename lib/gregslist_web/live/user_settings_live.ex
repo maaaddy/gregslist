@@ -7,10 +7,37 @@ defmodule GregslistWeb.UserSettingsLive do
     ~H"""
     <.header class="text-center">
       Account Settings
-      <:subtitle>Manage your account email address and password settings</:subtitle>
+      <:subtitle>Edit your account username, email, or password.</:subtitle>
     </.header>
 
     <div class="space-y-12 divide-y">
+      <div>
+        <.simple_form
+          for={@username_form}
+          id="username_form"
+          phx-change="validate_username"
+          phx-submit="update_username"
+        >
+        <.input
+          field={@username_form[:username]}
+          type="text"
+          label="Edit username"
+          required
+        />
+        <.input
+          field={@username_form[:username_confirmation]}
+          type="text"
+          label="Confirm new username"
+        />
+         <label id="current_username_for_username" class="label-class">
+          Current username: <span><%= @current_username %></span>
+        </label>
+          <:actions>
+            <.button phx-disable-with="Changing...">Change username</.button>
+          </:actions>
+        </.simple_form>
+      </div>
+
       <div>
         <.simple_form
           for={@email_form}
@@ -90,14 +117,17 @@ defmodule GregslistWeb.UserSettingsLive do
     user = socket.assigns.current_user
     email_changeset = Accounts.change_user_email(user)
     password_changeset = Accounts.change_user_password(user)
+    username_changeset = Accounts.change_user_username(user)
 
     socket =
       socket
       |> assign(:current_password, nil)
       |> assign(:email_form_current_password, nil)
+      |> assign(:current_username, user.username)
       |> assign(:current_email, user.email)
       |> assign(:email_form, to_form(email_changeset))
       |> assign(:password_form, to_form(password_changeset))
+      |> assign(:username_form, to_form(username_changeset))
       |> assign(:trigger_submit, false)
 
     {:ok, socket}
@@ -164,4 +194,63 @@ defmodule GregslistWeb.UserSettingsLive do
         {:noreply, assign(socket, password_form: to_form(changeset))}
     end
   end
+
+  def handle_event("validate_username", %{"user" => %{"username" => username, "username_confirmation" => username_confirmation} = user_params}, socket) do
+    changeset =
+      socket.assigns.current_user
+      |> Accounts.change_user_username(user_params)
+      |> Map.put(:action, :validate)
+
+    changeset =
+      if username != username_confirmation do
+        Ecto.Changeset.add_error(changeset, :username_confirmation, "Username confirmation does not match")
+      else
+        changeset
+      end
+
+    {:noreply, assign(socket, username_form: to_form(changeset))}
+  end
+
+
+  def handle_event("update_username", %{"user" => %{"username" => username, "username_confirmation" => username_confirmation} = user_params}, socket) do
+    user = socket.assigns.current_user
+
+    cond do
+      username_confirmation == "" || username != username_confirmation ->
+        changeset = Accounts.change_user_username(user, user_params)
+        changeset = Ecto.Changeset.add_error(changeset, :username_confirmation, "Username confirmation doesn't match")
+        {:noreply, assign(socket, username_form: to_form(changeset))}
+
+      true ->
+        case Accounts.update_user_username(user, user_params) do
+          {:ok, updated_user} ->
+            username_form = Accounts.change_user_username(updated_user) |> to_form()
+
+            {:noreply,
+             socket
+             |> put_flash(:info, "Username updated successfully.")
+             |> assign(current_user: updated_user, current_username: updated_user.username, username_form: username_form)}
+
+          {:error, changeset} ->
+            {:noreply, assign(socket, username_form: to_form(changeset))}
+        end
+    end
+  end
+
+
+
+  def handle_event("save", %{"user" => user_params}, socket) do
+    case Accounts.update_user_username(socket.assigns.current_user, user_params) do
+      {:ok, user} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "Username updated successfully")
+         |> assign(:current_user, user)}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, changeset: changeset)}
+    end
+  end
+
+
 end
