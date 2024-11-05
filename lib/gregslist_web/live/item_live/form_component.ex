@@ -3,9 +3,6 @@ defmodule GregslistWeb.ItemLive.FormComponent do
 
   alias Gregslist.Galleries
 
-  defp render_live_file_input(assigns) do
-  live_file_input(assigns.uploads.art_image)
-end
 
   @impl true
     def render(assigns) do
@@ -36,20 +33,17 @@ end
     """
   end
 
-  def mount(socket) do
-    {:ok, allow_upload(socket, :art_image, accept: ~w(.png .jpeg .jpg), max_entries: 3)}
-  end
 
 
   @impl true
   def update(%{item: item} = assigns, socket) do
-    # changeset = Galleries.change_item(item)
+    changeset = Galleries.change_item(item)
     {:ok,
      socket
      |> assign(assigns)
      |> assign_new(:form, fn ->
        to_form(Galleries.change_item(item))
-      end)}
+     end)}
   end
 
   @impl true
@@ -88,7 +82,12 @@ end
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
+        IO.inspect(item_params, label: "Item Params")  # Debugging output
         {:noreply, assign(socket, form: to_form(changeset))}
+
+      other ->
+        IO.inspect(other, label: "Unexpected Return Value")
+        {:noreply, put_flash(socket, :error, "An unexpected error occurred")}
     end
   end
 

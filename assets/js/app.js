@@ -42,3 +42,29 @@ liveSocket.connect()
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
 
+function readImage(ev){
+	ev.preventDefault();
+	let field = document.getElementById('upload-field');
+	let file = field.files[0];
+	console.log(file);
+
+	let rdr = new FileReader();
+	rdr.onload = function(ev){
+		let dataURL = ev.target.result;
+
+		let img = document.getElementById('img1');
+		img.src = dataURL;
+
+		localStorage.setItem('saved-image', dataURL);
+		}
+	rdr.readAsDataURL(file);
+}
+
+document.getElementById('show-btn').addEventListener('click', readImage);
+
+let dataURL = localStorage.getItem('saved-image');
+if (dataURL) {
+	let img = document.getElementById('img1');
+	img.src = dataURL;
+}
+

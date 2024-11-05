@@ -21,8 +21,9 @@ defmodule GregslistWeb.Router do
     pipe_through :browser
 
 
-    get "/", PageController, :home 
+    get "/", PageController, :home
     get "/gregslist", PageController, :gregslist
+    get "/photo", PageController, :photo
 
     live "/items", ItemLive.Index, :index
     live "/items/new", ItemLive.Index, :new
