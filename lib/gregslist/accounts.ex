@@ -5,7 +5,7 @@ defmodule Gregslist.Accounts do
 
   import Ecto.Query, warn: false
   alias Gregslist.Repo
-
+  import Ecto.Changeset
   alias Gregslist.Accounts.{User, UserToken, UserNotifier}
 
   ## Database getters
@@ -196,6 +196,20 @@ defmodule Gregslist.Accounts do
   def change_user_password(user, attrs \\ %{}) do
     User.password_changeset(user, attrs, hash_password: false)
   end
+
+  def change_user_username(%User{} = user, attrs \\ %{}) do
+    user
+    |> cast(attrs, [:username])
+    |> validate_required([:username])
+    |> unique_constraint(:username)
+  end
+
+  def update_user_username(%User{} = user, attrs) do
+    user
+    |> change_user_username(attrs)
+    |> Repo.update()
+  end
+
 
   @doc """
   Updates the user password.

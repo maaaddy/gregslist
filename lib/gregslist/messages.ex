@@ -13,7 +13,7 @@ defmodule Gregslist.Messages do
     )
   end
   def load_messages(sender_id, receiver_id) do
-    from(m in __MODULE__,
+    from(m in Message,
       where: (m.sender_id == ^sender_id and m.receiver_id == ^receiver_id) or
              (m.sender_id == ^receiver_id and m.receiver_id == ^sender_id),
       order_by: [asc: m.timestamp]
