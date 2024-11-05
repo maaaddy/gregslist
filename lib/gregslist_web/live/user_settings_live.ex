@@ -215,11 +215,10 @@ defmodule GregslistWeb.UserSettingsLive do
   def handle_event("update_username", %{"user" => %{"username" => username, "username_confirmation" => username_confirmation} = user_params}, socket) do
     user = socket.assigns.current_user
 
-    # Check if username confirmation is provided and matches
     cond do
       username_confirmation == "" || username != username_confirmation ->
         changeset = Accounts.change_user_username(user, user_params)
-        changeset = Ecto.Changeset.add_error(changeset, :username_confirmation, "Username confirmation can't be blank")
+        changeset = Ecto.Changeset.add_error(changeset, :username_confirmation, "Username confirmation doesn't match")
         {:noreply, assign(socket, username_form: to_form(changeset))}
 
       true ->
