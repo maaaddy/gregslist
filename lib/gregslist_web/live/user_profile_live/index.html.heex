@@ -1,0 +1,71 @@
+<div class="profile-page max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+
+    <header class="profile-header text-center border-b pb-4 mb-6">
+      <h1 class="text-3xl font-semibold text-gray-800">Profile Page</h1>
+      <p class="text-gray-600 mt-2">Welcome to your profile!</p>
+      <br>
+      <div class="relative inline-block">
+        <input type="file" id="profile-pic-input" class="absolute opacity-0" accept="image/*" onchange="previewProfilePic(event)" />
+        <label for="profile-pic-input" class="block w-24 h-24 rounded-full overflow-hidden border-2 border-gray-300">
+            <img id="profile-pic-preview" src="#" alt="Profile Picture" class="object-cover w-full h-full" />
+        </label>
+      </div>
+      <p class="text-gray-600 mt-2">Click to add/change your profile picture!</p>
+    </header>
+
+    <section class="profile-details space-y-6">
+      <h2 class="text-2xl font-semibold text-gray-800">User Information</h2>
+      <p class="text-gray-600">Here are your account details:</p>
+  
+      <ul class="text-gray-700 space-y-4">
+        <li class="flex justify-between items-center bg-gray-50 p-4 rounded-md shadow-sm">
+          <span class="font-medium">Username:</span>
+          <span class="text-gray-900"><%= @current_user.username %></span>
+        </li>
+  
+        <li class="flex justify-between items-center bg-gray-50 p-4 rounded-md shadow-sm">
+          <span class="font-medium">Email:</span>
+          <span class="text-gray-900"><%= @current_user.email %></span>
+        </li>
+      </ul>
+    </section>
+    <div>
+        <br><br>
+    </div>
+    <section class="about-me space-y-6">
+        <h2 class="text-2xl font-medium text-gray-800">About Me</h2>
+        <p class="text-gray-600">Edit your "About Me" section to tell others who you are:</p>
+        <li class="flex justify-between items-center bg-gray-50 p-4 rounded-md shadow-sm">
+            <span class="font-medium">About Me:</span>
+            <span class="text-gray-900"><%= #@current_user.about_me %></span>
+        </li>
+    </section>
+    <div>
+        <br><br>
+    </div>
+    <section class="my-listings space-y-6">
+        <h2 class="text-2xl font-medium text-gray-800">My Listings</h2>
+        <p class="text-gray-600">These are your current listings:</p>
+        <li class="flex justify-between items-center bg-gray-50 p-4 rounded-md shadow-sm">
+            <span class="font-semibold">Listings:</span>
+            <span class="text-gray-900"><%= #@current_user.item %></span>
+        </li>
+    </section>
+</div>
+
+<script>
+  function previewProfilePic(event) {
+      const input = event.target;
+      const preview = document.getElementById('profile-pic-preview');
+
+      if (input.files && input.files[0]) {
+          const reader = new FileReader();
+
+          reader.onload = function(e) {
+              preview.src = e.target.result;
+          }
+
+          reader.readAsDataURL(input.files[0]);
+      }
+  }
+</script>

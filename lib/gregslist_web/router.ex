@@ -21,7 +21,7 @@ defmodule GregslistWeb.Router do
     pipe_through :browser
 
 
-    get "/", PageController, :home 
+    get "/", PageController, :home
     get "/gregslist", PageController, :gregslist
 
     live "/items", ItemLive.Index, :index
@@ -80,6 +80,7 @@ defmodule GregslistWeb.Router do
       live "/chat", ChatLive.Index, :index
       live "/users", UserListLive.Index, :index
       live "/user_chat/:recipient_id", UserChatLive.Index, :index
+      live "/users/profile", UserProfileLive.Index, :index
 
     end
   end
