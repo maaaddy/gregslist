@@ -42,6 +42,32 @@ liveSocket.connect()
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
 
+const addImage = async(url) => {
+      try {
+        const pathArray = window.location.pathname.split('/');
+        number = pathArray[pathArray.length-1]
+        const body = {
+          image: {
+            itemId: number,
+            dataUrl: url
+          }
+        }
+
+        const response = await fetch('/listingphoto', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json', 
+            'X-CSRF-Token': csrfToken,        
+          },
+          body: JSON.stringify(body), // Only needed if sending data (e.g., POST)
+        });
+
+        console.log(response);
+      } catch (error) {
+        console.log(error)
+      }
+}
+
 function readImage(ev){
 	ev.preventDefault();
 	let field = document.getElementById('upload-field');
@@ -49,8 +75,13 @@ function readImage(ev){
 	console.log(file);
 
 	let rdr = new FileReader();
+
 	rdr.onload = function(ev){
+    let csrf = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+
 		let dataURL = ev.target.result;
+
+    addImage(dataURL);
 
 		let img = document.getElementById('img1');
 		img.src = dataURL;

@@ -24,7 +24,7 @@
     </div>
     <.link patch={~p"/items/#{item}/edit"}>Edit</.link>
     <div>
-      <.link patch={~p"/photo"}>+ Photo</.link>
+      <.link patch={~p"/photo/#{item}"}>+ Photo</.link>
     </div>
   </:action>
   <:action :let={{id, item}}>
