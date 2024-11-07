@@ -64,6 +64,24 @@ defmodule Gregslist.Accounts.User do
     |> maybe_hash_password(opts)
   end
 
+  defp validate_username(changeset, opts) do #phx-change="validate_username" gonna be line 78
+    changeset
+    |> validate_required([:username])
+    |> validate_length(:username, min: 1, max: 12)
+    |> validate_format(:username, ~r/^\w+$/, message: "can only contain alphanumeric characters and underscores")
+    |> maybe_validate_unique_username(opts)
+  end
+
+  defp maybe_validate_unique_username(changeset, opts) do
+    if Keyword.get(opts, :validate_username, true) do
+      changeset
+      |> unsafe_validate_unique(:username, Gregslist.Repo)
+      |> unique_constraint(:username)
+    else
+      changeset
+    end
+  end
+
   defp maybe_hash_password(changeset, opts) do
     hash_password? = Keyword.get(opts, :hash_password, true)
     password = get_change(changeset, :password)
@@ -123,6 +141,13 @@ defmodule Gregslist.Accounts.User do
     |> validate_password(opts)
   end
 
+  def username_changeset(user, attrs, opts \\ []) do
+    user
+    |> cast(attrs, [:username])
+    |> validate_username(opts)
+    |> maybe_validate_unique_username(opts)
+  end
+
   @doc """
   Confirms the account by setting `confirmed_at`.
   """
@@ -147,6 +172,16 @@ defmodule Gregslist.Accounts.User do
     false
   end
 
+  def valid_username?(%Gregslist.Accounts.User{hashed_password: hashed_password}, username)
+      when is_binary(hashed_password) and byte_size(username) > 0 do
+    Pbkdf2.verify_pass(username, hashed_password)
+  end
+
+  def valid_username?(_, _) do
+    Pbkdf2.no_user_verify()
+    false
+  end
+
   @doc """
   Validates the current password otherwise adds an error to the changeset.
   """
@@ -157,6 +192,16 @@ defmodule Gregslist.Accounts.User do
       changeset
     else
       add_error(changeset, :current_password, "is not valid")
+    end
+  end
+
+  def validate_current_username(changeset, username) do
+    changeset = cast(changeset, %{current_username: username}, [:current_username])
+
+    if valid_username?(changeset.data, username) do
+      changeset
+    else
+      add_error(changeset, :current_username, "is not valid")
     end
   end
 end

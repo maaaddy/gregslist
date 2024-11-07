@@ -17,9 +17,6 @@ defmodule Gregslist.Galleries do
       [%Item{}, ...]
 
   """
-  def list_items do
-    Repo.all(from i in Item, order_by: [desc: i.location])
-  end
 
   @doc """
   Gets a single item.
@@ -107,6 +104,13 @@ defmodule Gregslist.Galleries do
   def subscribe do
     Phoenix.PubSub.subscribe(Gregslist.PubSub, "items")
   end
+
+ def list_items(sort_order \\ "asc") do
+    from(i in Item, order_by: [{^String.to_atom(sort_order), :price}])
+    |> Repo.all()
+  end
+
+
 
   defp broadcast({:error, _reason} = error, _event), do: :error
 

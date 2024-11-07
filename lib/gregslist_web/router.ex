@@ -30,6 +30,7 @@ defmodule GregslistWeb.Router do
     live "/items", ItemLive.Index, :index
     live "/items/new", ItemLive.Index, :new
     live "/items/:id/edit", ItemLive.Index, :edit
+    live "/furniture", ItemLive.Furniture
 
     live "/items/:id", ItemLive.Show, :show
     live "/items/:id/show/edit", ItemLive.Show, :edit
@@ -83,6 +84,7 @@ defmodule GregslistWeb.Router do
       live "/chat", ChatLive.Index, :index
       live "/users", UserListLive.Index, :index
       live "/user_chat/:recipient_id", UserChatLive.Index, :index
+      live "/users/profile", UserProfileLive.Index, :index
 
     end
   end
