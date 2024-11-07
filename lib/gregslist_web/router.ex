@@ -27,6 +27,7 @@ defmodule GregslistWeb.Router do
     live "/items", ItemLive.Index, :index
     live "/items/new", ItemLive.Index, :new
     live "/items/:id/edit", ItemLive.Index, :edit
+    live "/furniture", ItemLive.Furniture
 
     live "/items/:id", ItemLive.Show, :show
     live "/items/:id/show/edit", ItemLive.Show, :edit

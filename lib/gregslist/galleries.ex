@@ -18,7 +18,7 @@ defmodule Gregslist.Galleries do
 
   """
   def list_items do
-    Repo.all(from i in Item, order_by: [desc: i.location])
+    Repo.all(from i in Item, order_by: [desc: i.categories])
   end
 
   @doc """
