@@ -3,7 +3,6 @@ defmodule GregslistWeb.ItemLive.FormComponent do
 
   alias Gregslist.Galleries
 
-
   @impl true
     def render(assigns) do
     ~H"""
@@ -32,8 +31,6 @@ defmodule GregslistWeb.ItemLive.FormComponent do
     </div>
     """
   end
-
-
 
   @impl true
   def update(%{item: item} = assigns, socket) do

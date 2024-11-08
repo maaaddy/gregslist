@@ -17,5 +17,5 @@ defmodule GregslistWeb.PageController do
 
   def photo(conn, _params) do
     render(conn, :photo)
-    end
+  end
 end
