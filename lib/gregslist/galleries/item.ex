@@ -9,6 +9,7 @@ defmodule Gregslist.Galleries.Item do
     field :desc, :string
     field :item_name, :string
     field :price, :float
+    
     timestamps(type: :utc_datetime)
   end
 
