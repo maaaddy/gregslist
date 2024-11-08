@@ -6,37 +6,35 @@
   <title>Logged In - GregsList</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<.header>
-  Sell an item
-  <:actions>
-    <.link patch={~p"/items/new"}>
-      <.button>New Item</.button>
-    </.link>
-  </:actions>
-</.header>
-<body class="min-h-screen flex flex-col justify-center items-center">
+<body class="min-h-screen bg-gray-100 flex items-center justify-center">
 
-  <!-- Main Content Area -->
-  <div class="bg-white shadow-xl rounded-lg p-10 max-w-lg text-center mb-8">
-    <h1 class="text-4xl font-semibold text-gray-800 mb-6">Now That You've Logged In...</h1>
-    <p class="text-lg text-gray-600 mb-8">Ready to add your first item to the list?</p>
+  <!-- Main Content Wrapper -->
+  <div class="bg-white shadow-xl rounded-lg p-8 max-w-lg w-full space-y-8">
 
-    <!-- Call to Action Button -->
-    <a href="/items/new" class="inline-block bg-indigo-600 text-white px-8 py-4 rounded-lg shadow-lg hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-all duration-300">
-      List an Item
-    </a>
-  </div>
+    <!-- Header Section -->
+    <header class="text-center">
+      <h1 class="text-4xl font-semibold text-gray-800 mb-4">
+        Hey <span class="text-indigo-600">Greg!</span>
+      </h1>
+      <p class="text-lg text-gray-600">Ready to list your first item or explore the categories?</p>
+    </header>
 
-  <!-- Main Content Area -->
-  <div class="bg-white shadow-xl rounded-lg p-10 max-w-lg text-center">
-    <p class="text-lg text-gray-600 mb-8">Or just browsing around?</p>
+    <!-- Action Buttons -->
+    <div class="flex flex-col gap-4">
 
-    <!-- Call to Action Button -->
-    <a href="/categories" class="inline-block bg-indigo-600 text-white px-8 py-4 rounded-lg shadow-lg hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-all duration-300">
-      Browse Categories
-    </a>
+      <!-- Sell an Item Button -->
+      <a href="/items/new" class="w-full text-center bg-indigo-600 text-white py-3 rounded-lg shadow-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-all duration-300">
+        List an Item
+      </a>
+
+      <!-- Browse Categories Button -->
+      <a href="/categories" class="w-full text-center bg-indigo-600 text-white py-3 rounded-lg shadow-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-all duration-300">
+        Browse Categories
+      </a>
+
+    </div>
   </div>
 
 </body>
-
 </html>
+
