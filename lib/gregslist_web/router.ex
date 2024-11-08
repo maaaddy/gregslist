@@ -20,9 +20,10 @@ defmodule GregslistWeb.Router do
   scope "/", GregslistWeb do
     pipe_through :browser
 
-
     get "/", PageController, :home
     get "/gregslist", PageController, :gregslist
+    get "/photo/:id", PageController, :photo
+    post "/listingphoto", ImageApi, :add_image
 
     live "/items", ItemLive.Index, :index
     live "/items/new", ItemLive.Index, :new
