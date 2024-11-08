@@ -22,6 +22,7 @@ defmodule GregslistWeb.Router do
 
     get "/", PageController, :home
     get "/gregslist", PageController, :gregslist
+
     get "/photo/:id", PageController, :photo
     post "/listingphoto", ImageApi, :add_image
 
