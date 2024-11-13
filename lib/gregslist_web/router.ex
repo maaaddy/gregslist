@@ -24,12 +24,15 @@ defmodule GregslistWeb.Router do
     get "/gregslist", PageController, :gregslist
     get "/photo/:id", PageController, :photo
     get "/categories", PageController, :categories
+
     post "/listingphoto", ImageApi, :add_image
 
     live "/items", ItemLive.Index, :index
     live "/items/new", ItemLive.Index, :new
     live "/items/:id/edit", ItemLive.Index, :edit
     live "/furniture", ItemLive.Furniture, :furniture
+    live "/search", SearchLive
+
 
     live "/items/:id", ItemLive.Show, :show
     live "/items/:id/show/edit", ItemLive.Show, :edit
