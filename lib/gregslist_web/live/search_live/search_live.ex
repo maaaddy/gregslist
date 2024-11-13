@@ -6,12 +6,12 @@ defmodule GregslistWeb.SearchLive do
   def mount(_params, _session, socket) do
     # Fetch all items initially, without any filters applied
     items = Galleries.list_items()
-    {:ok, assign(socket, items: items, category: nil, min_price: nil, max_price: nil, location: nil)}
+    {:ok, assign(socket, items: items, search: nil, category: nil, min_price: nil, max_price: nil, location: nil)}
   end
 
   @impl true
   @spec handle_event(<<_::48>>, map(), any()) :: {:noreply, any()}
-  def handle_event("filter", %{"category" => category, "min_price" => min_price, "max_price" => max_price, "location" => location}, socket) do
+  def handle_event("filter", %{"search" => search_term, "category" => category, "min_price" => min_price, "max_price" => max_price, "location" => location}, socket) do
     # Parse price inputs and log for debugging
     IO.inspect(min_price, label: "Min Price Input")
     IO.inspect(max_price, label: "Max Price Input")
@@ -24,12 +24,13 @@ defmodule GregslistWeb.SearchLive do
 
     # Fetch and filter items based on category and price range
     items = Galleries.list_items()
+           |> filter_by_name(search_term)
            |> filter_by_category(category)
            |> filter_by_price(min_price, max_price)
            |> filter_by_location(location)
 
     # Update socket with the filtered items and filter parameters
-    {:noreply, assign(socket, items: items, category: category, min_price: min_price, max_price: max_price, location: location)}
+    {:noreply, assign(socket, items: items, search: search_term, category: category, min_price: min_price, max_price: max_price, location: location)}
   end
 
   # Helper function to parse price values
@@ -57,13 +58,31 @@ defmodule GregslistWeb.SearchLive do
   defp filter_by_location(items, ""), do: items
   defp filter_by_location(items, location), do: Enum.filter(items, &(&1.location == location))
 
+  defp filter_by_name(items, ""), do: items
+  defp filter_by_name(items, search_term) do
+  Enum.filter(items, fn item ->
+    String.contains?(String.downcase(item.item_name), String.downcase(search_term))
+  end)
+end
+
   @impl true
   def render(assigns) do
     ~H"""
     <div class="container mx-auto py-8">
       <h1 class="text-4xl font-semibold text-center text-indigo-600 mb-8">Search Listings</h1>
 
+      <!-- Name Search Input at the top -->
       <form phx-change="filter">
+        <div class="mb-8">
+          <div class="flex space-x-4 justify-center">
+            <div class="w-full md:w-1/2">
+              <label for="search" class="text-gray-700 sr-only">Search by Name</label>
+              <input type="text" id="search" name="search" value={@search || ""} placeholder="Search by name..." class="border p-2 rounded w-full" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Filters Section -->
         <div class="space-y-4 mb-8">
           <div class="flex space-x-4">
             <!-- Category Filter Dropdown -->
@@ -115,5 +134,5 @@ defmodule GregslistWeb.SearchLive do
       </div>
     </div>
     """
-  end
+end
 end
