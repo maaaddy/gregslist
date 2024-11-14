@@ -7,7 +7,7 @@ defmodule GregslistWeb.ItemLive.Furniture do
   def mount(_params, _session, socket) do
 
     furniture_items = Galleries.list_items() |> Enum.filter(&(&1.categories == "furniture"))
-    
+
     {:ok, assign(socket, furniture_items: furniture_items, sort_order: "asc")}
   end
 
