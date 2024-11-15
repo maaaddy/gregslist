@@ -48,7 +48,8 @@ const addImage = async(url) => {
     const body = {
       image: {
         itemId: number,
-        dataUrl: url
+        dataUrl: url,
+        item_id: number
       }
     }
 

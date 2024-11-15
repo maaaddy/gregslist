@@ -108,6 +108,7 @@ defmodule Gregslist.Galleries do
  def list_items(sort_order \\ "asc") do
     from(i in Item, order_by: [{^String.to_atom(sort_order), :price}])
     |> Repo.all()
+    |> Repo.preload(:images)
   end
 
 

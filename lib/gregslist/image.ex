@@ -8,6 +8,7 @@ defmodule Gregslist.Image do
   schema "images" do
     field :itemId, :integer
     field :dataUrl, :string
+    belongs_to :items, Gregslist.Galleries.Item, foreign_key: :item_id
 
     timestamps(type: :utc_datetime)
   end
@@ -15,8 +16,8 @@ defmodule Gregslist.Image do
   @doc false
   def changeset(image, attrs) do
     image
-    |> cast(attrs, [:itemId, :dataUrl])
-    |> validate_required([:itemId, :dataUrl])
+    |> cast(attrs, [:itemId, :dataUrl, :item_id])
+    |> validate_required([:itemId, :dataUrl, :item_id])
   end
 
   def insert(attrs \\ %{}) do

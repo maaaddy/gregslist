@@ -6,9 +6,9 @@ defmodule GregslistWeb.ItemLive.Index do
 
 
   @impl true
-def mount(_params, _session, socket) do
-  if connected?(socket) do
-    Galleries.subscribe()
+  def mount(_params, _session, socket) do
+    if connected?(socket) do
+      Galleries.subscribe()
   end
 
   {:ok, stream(socket, :items, Galleries.list_items())}
