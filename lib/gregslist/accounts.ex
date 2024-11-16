@@ -30,6 +30,19 @@ defmodule Gregslist.Accounts do
     Repo.get(User, id)
   end
 
+  def about_me_changeset(user, about_me_params) do
+    user
+    |> cast(about_me_params, [:about_me])
+    |> validate_length(:about_me, max: 100)
+  end
+
+  def update_about_me(user, %{"about_me" => about_me}) do
+    user
+    |> about_me_changeset(%{"about_me" => about_me})
+    |> Repo.update()
+  end
+
+
   #This grabs the whole list of users..
   def list_users do
     Repo.all(User)
