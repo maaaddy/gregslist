@@ -11,6 +11,7 @@ defmodule Gregslist.Accounts.User do
     field :username, :string
     field :dob, :date
     field :zipcode, :integer
+    field :about_me, :string
 
     timestamps(type: :utc_datetime)
   end
@@ -43,6 +44,12 @@ defmodule Gregslist.Accounts.User do
     |> cast(attrs, [:email, :password, :username, :dob, :zipcode])
     |> validate_email(opts)
     |> validate_password(opts)
+  end
+
+  def about_me_changeset(user, about_me_params) do
+    user
+    |> cast(about_me_params, [:about_me])  # Only allow about_me to be casted
+    |> validate_length(:about_me, max: 500)  # Optional: validate length
   end
 
   defp validate_email(changeset, opts) do

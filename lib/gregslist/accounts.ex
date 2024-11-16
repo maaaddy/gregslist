@@ -30,6 +30,19 @@ defmodule Gregslist.Accounts do
     Repo.get(User, id)
   end
 
+  def about_me_changeset(user, about_me_params) do
+    user
+    |> cast(about_me_params, [:about_me])  # Only allow about_me to be casted
+    |> validate_length(:about_me, max: 500)  # Optional: validate length
+  end
+
+  def update_about_me(user, %{"about_me" => about_me}) do
+    user
+    |> about_me_changeset(%{"about_me" => about_me})  # Pass the about_me parameter as a map
+    |> Repo.update()  # Update the user with the changeset
+  end
+
+
   #This grabs the whole list of users..
   def list_users do
     Repo.all(User)
