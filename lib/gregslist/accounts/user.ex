@@ -12,7 +12,6 @@ defmodule Gregslist.Accounts.User do
     field :dob, :date
     field :zipcode, :integer
     field :about_me, :string
-    field :about_me, :string
 
     timestamps(type: :utc_datetime)
   end

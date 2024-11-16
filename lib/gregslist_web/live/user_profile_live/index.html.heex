@@ -52,7 +52,7 @@
   socket.on("about_me_updated", (payload) => {
     let aboutMeText = document.getElementById("about-me-text");
     if (aboutMeText) {
-      aboutMeText.innerText = payload.about_me || "This user hasn't written anything about themselves yet.";
+      aboutMeText.innerText = payload.about_me || "Edit this section to tell others about yourself.";
     }
   });
 </script>
