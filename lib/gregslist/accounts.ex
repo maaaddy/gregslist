@@ -32,24 +32,14 @@ defmodule Gregslist.Accounts do
 
   def about_me_changeset(user, about_me_params) do
     user
-<<<<<<< HEAD
     |> cast(about_me_params, [:about_me])
     |> validate_length(:about_me, max: 100)
-=======
-    |> cast(about_me_params, [:about_me])  # Only allow about_me to be casted
-    |> validate_length(:about_me, max: 500)  # Optional: validate length
->>>>>>> e834fcb0b437ed9e1344b5901f227e2eb5a02668
   end
 
   def update_about_me(user, %{"about_me" => about_me}) do
     user
-<<<<<<< HEAD
     |> about_me_changeset(%{"about_me" => about_me})
     |> Repo.update()
-=======
-    |> about_me_changeset(%{"about_me" => about_me})  # Pass the about_me parameter as a map
-    |> Repo.update()  # Update the user with the changeset
->>>>>>> e834fcb0b437ed9e1344b5901f227e2eb5a02668
   end
 
 
