@@ -71,6 +71,66 @@ end
     <div class="container mx-auto py-8">
       <h1 class="text-4xl font-semibold text-center text-indigo-600 mb-8">Search Listings</h1>
 
+       <!-- Geolocation Stuff -->
+            <div>
+            <button class="bg-indigo-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="getLocation()">
+                Get My Location
+            </button>
+            </div>
+
+            <script>
+            function getLocation() {
+              if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+              } else {
+                alert("Geolocation is not supported by this browser.");
+              }
+            }
+
+            function showPosition(position) {
+              const latitude = position.coords.latitude;
+              const longitude = position.coords.longitude;
+
+              // Send location to the backend or display it
+              console.log("Latitude: " + latitude + ", Longitude: " + longitude);
+
+              // Example: Send data to your server via POST
+              fetch("/geolocation", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ latitude, longitude }),
+              })
+              .then(response => response.json())
+              .then(data => {
+                console.log("Server Response:", data);
+              })
+              .catch(error => {
+                console.error("Error:", error);
+              });
+            }
+
+            function showError(error) {
+              switch (error.code) {
+                case error.PERMISSION_DENIED:
+                  alert("User denied the request for Geolocation.");
+                  break;
+                case error.POSITION_UNAVAILABLE:
+                  alert("Location information is unavailable.");
+                  break;
+                case error.TIMEOUT:
+                  alert("The request to get user location timed out.");
+                  break;
+                case error.UNKNOWN_ERROR:
+                  alert("An unknown error occurred.");
+                  break;
+              }
+            }
+          </script>
+
+
+
       <!-- Name Search Input at the top -->
       <form phx-change="filter">
         <div class="mb-8">
@@ -105,6 +165,11 @@ end
               <input type="number" id="min_price" name="min_price" value={@min_price || ""} class="border p-2 rounded" placeholder="Min Price" />
             </div>
 
+
+
+
+
+
             <!-- Max Price Input -->
             <div>
               <label for="max_price" class="text-gray-700">Max Price</label>
@@ -138,4 +203,8 @@ end
     </div>
     """
 end
+
+
+
+
 end
