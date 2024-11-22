@@ -3,9 +3,8 @@ defmodule GregslistWeb.ItemLive.FormComponent do
 
   alias Gregslist.Galleries
 
-
   @impl true
-  def render(assigns) do
+    def render(assigns) do
     ~H"""
     <div>
       <.header>
@@ -14,54 +13,24 @@ defmodule GregslistWeb.ItemLive.FormComponent do
       </.header>
 
       <.simple_form
-  for={@form}
-  id="item-form"
-  phx-target={@myself}
-  phx-change="validate"
-  phx-submit="save"
->
-  <.input field={@form[:item_name]} type="text" label="Item name" />
-  <.input field={@form[:categories]} type="select" options={[{"Furniture", "furniture"}, {"Clothes", "clothes"}, {"Business", "business"}, {"Vehicles", "vehicles"}, {"Technology", "technology"}, {"Other", "other"}]}  label="Category" />
-  <.input field={@form[:desc]} type="textarea" label="Desc" />
-  <.input field={@form[:price]} type="number" label="Price" step="any" />
-
-  <input type="hidden" id="latitude" name="item[latitude]" value="">
-<input type="hidden" id="longitude" name="item[longitude]" value="">
-
-
-  <:actions>
-    <.button phx-disable-with="Saving...">Save Item</.button>
-  </:actions>
-</.simple_form>
-
-      <script>
-  document.addEventListener("DOMContentLoaded", function () {
-  const latitudeInput = document.getElementById("latitude");
-  const longitudeInput = document.getElementById("longitude");
-
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        latitudeInput.value = position.coords.latitude;
-        longitudeInput.value = position.coords.longitude;
-        console.log("Latitude:", position.coords.latitude);
-        console.log("Longitude:", position.coords.longitude);
-      },
-      (error) => {
-        console.error("Error getting location: ", error);
-      }
-    );
-  } else {
-    console.error("Geolocation is not supported by this browser.");
-  }
-});
-
-</script>
-
+        for={@form}
+        id="item-form"
+        phx-target={@myself}
+        phx-change="validate"
+        phx-submit="save"
+      >
+        <.input field={@form[:item_name]} type="text" label="Item name" />
+        <.input field={@form[:categories]} type="select" options={[{"Furniture", "furniture"}, {"Clothes", "clothes"}, {"Business", "business"}, {"Vehicles", "vehicles"}, {"Technology","technology"},{"Other", "other"}]}  label="Category" />
+        <.input field={@form[:desc]} type="textarea" label="Desc" />
+        <.input field={@form[:price]} type="number" label="Price" step="any" />
+        <.input field={@form[:location]} type="text" label="Location" />
+        <:actions>
+          <.button phx-disable-with="Saving...">Save Item</.button>
+        </:actions>
+      </.simple_form>
     </div>
     """
   end
-
 
   @impl true
   def update(%{item: item} = assigns, socket) do
@@ -84,31 +53,6 @@ defmodule GregslistWeb.ItemLive.FormComponent do
     save_item(socket, socket.assigns.action, item_params)
   end
 
-  defp save_item(socket, :new, item_params) do
-    IO.inspect(item_params, label: "Item Params")
-
-    location = "#{item_params["latitude"]}, #{item_params["longitude"]}"
-    item_params = Map.put(item_params, "location", location)
-
-    case Galleries.create_item(item_params) do
-      {:ok, item} ->
-        IO.inspect(item, label: "Created Item")
-        notify_parent({:saved, item})
-
-        {:noreply,
-         socket
-         |> put_flash(:info, "Item created successfully")
-         |> push_patch(to: socket.assigns.patch)}
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        IO.inspect(changeset, label: "Changeset Error")
-        {:noreply, assign(socket, form: to_form(changeset))}
-    end
-
-  end
-
-
-
   defp save_item(socket, :edit, item_params) do
     case Galleries.update_item(socket.assigns.item, item_params) do
       {:ok, item} ->
@@ -124,20 +68,20 @@ defmodule GregslistWeb.ItemLive.FormComponent do
     end
   end
 
-  # defp save_item(socket, :new, item_params) do
-    # case Galleries.create_item(item_params) do
-     #  {:ok, item} ->
-       #  notify_parent({:saved, item})
+  defp save_item(socket, :new, item_params) do
+    case Galleries.create_item(item_params) do
+      {:ok, item} ->
+        notify_parent({:saved, item})
 
-        # {:noreply,
-       #  socket
-        # |> put_flash(:info, "Item created successfully")
-        # |> push_patch(to: socket.assigns.patch)}
+        {:noreply,
+         socket
+         |> put_flash(:info, "Item created successfully")
+         |> push_patch(to: socket.assigns.patch)}
 
-    #  {:error, %Ecto.Changeset{} = changeset} ->
-      #  {:noreply, assign(socket, form: to_form(changeset))}
-   # end
-  #end
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, form: to_form(changeset))}
+    end
+  end
 
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
 end
