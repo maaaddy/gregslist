@@ -4,6 +4,7 @@ defmodule Gregslist.Galleries.Item do
 
   schema "items" do
     field :user_name, :string
+    field :location, :string
     field :categories
     field :desc, :string
     field :item_name, :string
