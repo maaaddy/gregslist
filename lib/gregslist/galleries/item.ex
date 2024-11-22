@@ -12,8 +12,6 @@ defmodule Gregslist.Galleries.Item do
     field :longitude, :float
     has_many :images, Gregslist.Image
 
-    field :location, :string
-
     timestamps(type: :utc_datetime)
   end
 
