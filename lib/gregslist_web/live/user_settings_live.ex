@@ -10,6 +10,64 @@ defmodule GregslistWeb.UserSettingsLive do
       <:subtitle>Edit your account username, zipcode, email, or password.</:subtitle>
     </.header>
 
+    <!-- Geolocation Stuff -->
+            <div>
+            <button class="bg-indigo-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="getLocation()">
+                Get My Location
+            </button>
+            </div>
+
+            <script>
+            function getLocation() {
+              if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+              } else {
+                alert("Geolocation is not supported by this browser.");
+              }
+            }
+
+            function showPosition(position) {
+              const latitude = position.coords.latitude;
+              const longitude = position.coords.longitude;
+
+              // Send location to the backend or display it
+              console.log("Latitude: " + latitude + ", Longitude: " + longitude);
+
+              // Example: Send data to your server via POST
+              fetch("/geolocation", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ latitude, longitude }),
+              })
+              .then(response => response.json())
+              .then(data => {
+                console.log("Server Response:", data);
+              })
+              .catch(error => {
+                console.error("Error:", error);
+              });
+            }
+
+            function showError(error) {
+              switch (error.code) {
+                case error.PERMISSION_DENIED:
+                  alert("User denied the request for Geolocation.");
+                  break;
+                case error.POSITION_UNAVAILABLE:
+                  alert("Location information is unavailable.");
+                  break;
+                case error.TIMEOUT:
+                  alert("The request to get user location timed out.");
+                  break;
+                case error.UNKNOWN_ERROR:
+                  alert("An unknown error occurred.");
+                  break;
+              }
+            }
+          </script>
+
     <div class="space-y-12 divide-y">
       <div>
         <.simple_form
@@ -125,6 +183,8 @@ defmodule GregslistWeb.UserSettingsLive do
         </.simple_form>
       </div>
     </div>
+
+
     """
   end
 

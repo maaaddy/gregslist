@@ -40,6 +40,8 @@ defmodule GregslistWeb.Router do
 
     live "/items/:id", ItemLive.Show, :show
     live "/items/:id/show/edit", ItemLive.Show, :edit
+
+    post "/geolocation", PageController, :save_location
   end
 
   # Other scopes may use custom stacks.
