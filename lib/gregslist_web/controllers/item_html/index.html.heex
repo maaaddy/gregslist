@@ -11,7 +11,13 @@
   <:col :let={item} label="Name"><%= item.item_name %></:col>
   <:col :let={item} label="Category"><%= item.categories %></:col>
   <:col :let={item} label="Desc"><%= item.desc %></:col>
-  <:col :let={item} label="Price"><%= item.price %></:col>
+  <:col :let={item} label="Price">
+    <%= if is_number(item.price) do %>
+      <%= :erlang.float_to_binary(item.price, [:compact, {:decimals, 2}]) %>
+    <% else %>
+      <%= item.price %>
+    <% end %>
+  </:col>
   <:col :let={item} label="Location"><%= item.location %></:col>
   <:col :let={item} label="User"><%= item.user.username %></:col>
   <:action :let={item}>
