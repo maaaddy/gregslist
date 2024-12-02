@@ -27,7 +27,7 @@ defmodule GregslistWeb.Router do
 
     post "/listingphoto", ImageApi, :add_image
 
-    live "/items", ItemLive.Index, :index
+    resources "/items", ItemController
     live "/new", ItemLive.Index, :new
     live "/items/:id/edit", ItemLive.Index, :edit
     live "/furniture", ItemLive.Furniture

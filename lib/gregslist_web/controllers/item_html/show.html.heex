@@ -1,0 +1,20 @@
+<.header>
+  item <%= @item.id %>
+  <:subtitle>This is a test record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/items/#{@item}/edit"}>
+      <.button>Edit item</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name"><%= @item.item_name %></:item>
+  <:item title="Category"><%= @item.categories %></:item>
+  <:item title="Desc"><%= @item.desc %></:item>
+  <:item title="Price"><%= @item.price %></:item>
+  <:item title="Location"><%= @item.location %></:item>
+  <:item title="User"><%= @item.user.username %></:item>
+</.list>
+
+<.back navigate={~p"/items"}>Back to items</.back>

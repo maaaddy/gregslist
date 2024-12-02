@@ -2,7 +2,7 @@ defmodule Gregslist.Items.Category do
   use Ecto.Schema
   import Ecto.Changeset
 
-  schema "categories" do
+  schema "category" do
     field :name, :string
     timestamps()
   end
