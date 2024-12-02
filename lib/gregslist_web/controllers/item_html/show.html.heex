@@ -12,7 +12,12 @@
   <:item title="Name"><%= @item.item_name %></:item>
   <:item title="Category"><%= @item.categories %></:item>
   <:item title="Desc"><%= @item.desc %></:item>
-  <:item title="Price"><%= @item.price %></:item>
+  <:item title="Price">
+    <%= if is_number(@item.price) do %>
+      <%= :erlang.float_to_binary(@item.price, [:compact, {:decimals, 2}]) %>
+    <% else %>
+      <%= @item.price %>
+    <% end %></:item>
   <:item title="Location"><%= @item.location %></:item>
   <:item title="User"><%= @item.user.username %></:item>
 </.list>

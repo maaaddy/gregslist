@@ -5,7 +5,7 @@
   <.input field={f[:item_name]} type="text" label="Item Name" />
   <.input field={f[:categories]} type="select" options={[{"Furniture", "furniture"}, {"Clothes", "clothes"}, {"Business", "business"}, {"Vehicles", "vehicles"}, {"Technology","technology"},{"Other", "other"}]}  label="Category" />
   <.input field={f[:desc]} type="text" label="Desc" />
-  <.input field={f[:price]} type="number" label="Price" step="any" />
+  <.input field={f[:price]} type="number" label="Price" step="0.01" />
   <.input field={f[:location]} type="text" label="Location" />
   <:actions>
     <.button>Save item</.button>
