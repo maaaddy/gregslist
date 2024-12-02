@@ -50,7 +50,6 @@ defmodule Gregslist.Galleries do
     %Item{}
     |> Item.changeset(attrs)
     |> Repo.insert()
-    |> broadcast(:post_created)
   end
 
   @doc """
@@ -69,7 +68,6 @@ defmodule Gregslist.Galleries do
     item
     |> Item.changeset(attrs)
     |> Repo.update()
-    |> broadcast(:post_updated)
   end
 
   @doc """
@@ -108,15 +106,7 @@ defmodule Gregslist.Galleries do
  def list_items(sort_order \\ "asc") do
     from(i in Item, order_by: [{^String.to_atom(sort_order), :price}])
     |> Repo.all()
-    |> Repo.preload(:images)
+    |> Repo.preload([:images, :user])
   end
-
-
-
-  defp broadcast({:error, _reason} = error, _event), do: :error
-
-defp broadcast({:ok, item}, event) do
-  Phoenix.PubSub.broadcast(Gregslist.PubSub, "items", {event, item})
-end
 
 end
