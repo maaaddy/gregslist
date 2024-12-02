@@ -92,12 +92,12 @@ end
               <label for="category" class="text-gray-700">Category</label>
               <select id="category" name="category" class="border p-2 rounded">
                 <option value="">All Categories</option>
-                <option value="technology">Technology</option>
-                <option value="furniture">Furniture</option>
-                <option value="vehicles">Vehicles</option>
-                <option value="clothes">Clothing</option>
-                <option value="business">Business</option>
-                <option value="other">Other</option>
+                <option value="technology" selected={@category == "technology"}>Technology</option>
+                <option value="furniture" selected={@category == "furniture"}>Furniture</option>
+                <option value="vehicles" selected={@category == "vehicles"}>Vehicles</option>
+                <option value="clothes" selected={@category == "clothes"}>Clothing</option>
+                <option value="business" selected={@category == "business"}>Business</option>
+                <option value="other" selected={@category == "other"}>Other</option>
               </select>
             </div>
 
