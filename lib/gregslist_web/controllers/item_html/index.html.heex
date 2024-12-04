@@ -21,10 +21,10 @@
   <:col :let={item} label="Location"><%= item.location %></:col>
   <:col :let={item} label="User"><%= item.user.username %></:col>
   <:action :let={item}>
-    <div class="sr-only">
-      <.link navigate={~p"/items/#{item}"}>Show</.link>
-    </div>
     <.link navigate={~p"/items/#{item}/edit"}>Edit</.link>
+    <div>
+      <.link patch={~p"/photo/#{item}"}>+ Photo</.link>
+    </div>
   </:action>
   <:action :let={item}>
     <.link href={~p"/items/#{item}"} method="delete" data-confirm="Are you sure?">
