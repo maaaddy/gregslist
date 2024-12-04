@@ -4,11 +4,13 @@ defmodule GregslistWeb.ItemController do
   alias Gregslist.Galleries.Item
   alias Gregslist.Repo
   def index(conn, _params) do
+    current_user = conn.assigns.current_user
     items =
       Repo.all(Gregslist.Galleries.Item)
+      |> Enum.filter(fn item -> item.user_id == current_user.id end)
       |> Repo.preload(:user)
 
-    render(conn, "index.html", items: items)
+    render(conn, "index.html", items: items, current_user: current_user)
   end
 
 
