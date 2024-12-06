@@ -91,7 +91,7 @@ end
             <div>
               <label for="category" class="text-gray-700">Category</label>
               <select id="category" name="category" class="border p-2 rounded">
-                <option value="">All Categories</option>
+                <option value="">All</option>
                 <option value="technology" selected={@category == "technology"}>Technology</option>
                 <option value="furniture" selected={@category == "furniture"}>Furniture</option>
                 <option value="vehicles" selected={@category == "vehicles"}>Vehicles</option>
