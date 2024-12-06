@@ -57,8 +57,15 @@ defmodule GregslistWeb.SearchLive do
     Enum.filter(items, &(&1.price >= min_price and &1.price <= max_price))
   end
 
-  defp filter_by_location(items, ""), do: items
-  defp filter_by_location(items, location), do: Enum.filter(items, &(&1.location == location))
+  # Helper function to filter items by location with partial match
+defp filter_by_location(items, nil), do: items
+defp filter_by_location(items, ""), do: items
+defp filter_by_location(items, location) do
+  Enum.filter(items, fn item ->
+    String.contains?(String.downcase(item.location || ""), String.downcase(location))
+  end)
+end
+
 
   defp filter_by_name(items, ""), do: items
   defp filter_by_name(items, search_term) do
