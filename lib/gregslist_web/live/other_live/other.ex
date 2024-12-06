@@ -22,4 +22,10 @@ defmodule GregslistWeb.ItemLive.Other do
 
     {:noreply, assign(socket, other_items: other_items, sort_order: sort_order)}
   end
+
+  def handle_event("div_clicked", %{"id" => item_id}, socket) do
+    IO.puts("Div was clicked! Item ID: #{item_id}")
+
+  {:noreply, push_redirect(socket, to: ~p"/items/#{item_id}/detail")}
+  end
 end

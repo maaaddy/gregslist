@@ -32,7 +32,8 @@
   <% else %>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <%= for item <- @other_items do %>
-        <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
+        <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow"
+        style="cursor: pointer;"phx-click={JS.push("div_clicked", value: %{id: item.id})}>
           <%= if item.images !=nil && length(item.images) > 0 do %>
            <img src={hd(item.images).dataUrl} />
           <% end %>
