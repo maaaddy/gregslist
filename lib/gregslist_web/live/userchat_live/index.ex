@@ -54,7 +54,7 @@ defmodule GregslistWeb.UserChatLive.Index do
     GregslistWeb.Endpoint.broadcast(
       topic(recipient_id),
       "message",
-      %{text: text, name: socket.assigns.current_user.username, sender_id: current_user_id}
+      %{content: text, name: socket.assigns.current_user.username, sender_id: current_user_id, timestamp: DateTime.utc_now()}
     )
 
     {:noreply, socket}

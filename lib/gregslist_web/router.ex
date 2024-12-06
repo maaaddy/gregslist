@@ -94,6 +94,7 @@ defmodule GregslistWeb.Router do
       live "/users", UserListLive.Index, :index
       live "/user_chat/:recipient_id", UserChatLive.Index, :index
       live "/users/profile", UserProfileLive.Index, :index
+      live "/messages", MessagesLive.Index, :index
 
     end
   end
