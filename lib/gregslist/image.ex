@@ -18,6 +18,7 @@ defmodule Gregslist.Image do
     image
     |> cast(attrs, [:itemId, :dataUrl, :item_id])
     |> validate_required([:itemId, :dataUrl, :item_id])
+    |> foreign_key_constraint(:item_id)
   end
 
   def insert(attrs \\ %{}) do
