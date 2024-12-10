@@ -33,7 +33,7 @@ defmodule GregslistWeb.Router do
     live "/new", ItemLive.Index, :new
     live "/detail", ItemController, :detail
     live "/items/:id/edit", ItemLive.Index, :edit
-    live "/myitems", ItemLive.Myitems
+
     live "/furniture", ItemLive.Furniture
     live "/clothes", ItemLive.Clothes
     live "/business", ItemLive.Business
@@ -92,6 +92,7 @@ defmodule GregslistWeb.Router do
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
       live "/chat", ChatLive.Index, :index
+      live "/myitems", ItemLive.Myitems
       live "/users", UserListLive.Index, :index
       live "/user_chat/:recipient_id", UserChatLive.Index, :index
       live "/users/profile", UserProfileLive.Index, :index
