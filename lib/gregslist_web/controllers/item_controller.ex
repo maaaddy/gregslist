@@ -40,6 +40,12 @@ defmodule GregslistWeb.ItemController do
   render(conn, "detail.html", item: item)
 end
 
+ def details(conn, %{"id" => id}) do
+  item = Repo.get!(Item, id) |> Repo.preload(:user)
+
+  render(conn, "details.html", item: item)
+end
+
   def show(conn, %{"id" => id}) do
     item =
     Repo.get!(Gregslist.Galleries.Item, id)
