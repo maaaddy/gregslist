@@ -1,8 +1,15 @@
-<.header>
-  Edit Item <%= @item.id %>
-  <:subtitle>Use this form to manage item records in your database.</:subtitle>
-</.header>
 
+<.header>
+  item <%= @item.id %>
+  <:subtitle>This is a test record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/photo/#{@item}"}>
+      <.button> + Photo</.button>
+    </.link>
+  </:actions>
+</.header>
 <.item_form changeset={@changeset} action={~p"/items/#{@item}"} />
 
-<.back navigate={~p"/items"}>Back to items</.back>
+<div>
+</div>
+<.link navigate={~p"/myitems"}>Back to items</.link>

@@ -25,7 +25,6 @@ defmodule GregslistWeb.Router do
     get "/photo/:id", PageController, :photo
     get "/categories", PageController, :categories
     get "/items/:id/detail", ItemController, :detail
-    get "/items/:id/details", ItemController, :details
 
 
     post "/listingphoto", ImageApi, :add_image
@@ -33,7 +32,6 @@ defmodule GregslistWeb.Router do
     resources "/items", ItemController
     live "/new", ItemLive.Index, :new
     live "/detail", ItemController, :detail
-    live "/details", ItemController, :details
     live "/items/:id/edit", ItemLive.Index, :edit
 
     live "/furniture", ItemLive.Furniture
@@ -74,6 +72,8 @@ defmodule GregslistWeb.Router do
 
   scope "/", GregslistWeb do
     pipe_through [:browser, :redirect_if_user_is_authenticated]
+
+    get "/items/:id/mydetail", ItemController, :mydetail
 
     live_session :redirect_if_user_is_authenticated,
       on_mount: [{GregslistWeb.UserAuth, :redirect_if_user_is_authenticated}] do

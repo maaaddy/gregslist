@@ -141,7 +141,10 @@ end
           <div class="bg-white p-4 rounded shadow"
           style="cursor: pointer;"phx-click={JS.push("div_clicked", value: %{id: item.id})}>
             <%= if item.images !=nil && length(item.images) > 0 do %>
-              <img src={hd(item.images).dataUrl} />
+              <img src={hd(item.images).dataUrl}
+                class="w-full h-40 object-cover rounded mb-4"
+                alt="Item Image"
+               />
             <% end %>
             <h3 class="font-semibold text-xl text-indigo-600"><%= item.item_name %></h3>
             <p class="text-gray-600"><%= item.user.username %></p>
