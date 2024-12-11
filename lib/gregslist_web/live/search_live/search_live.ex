@@ -11,6 +11,12 @@ defmodule GregslistWeb.SearchLive do
     {:ok, assign(socket, items: items, search: nil, category: nil, min_price: nil, max_price: nil, location: nil)}
   end
 
+  def handle_event("div_clicked", %{"id" => item_id}, socket) do
+    IO.puts("Div was clicked! Item ID: #{item_id}")
+
+  {:noreply, push_redirect(socket, to: ~p"/items/#{item_id}/details")}
+  end
+
   @impl true
   @spec handle_event(<<_::48>>, map(), any()) :: {:noreply, any()}
   def handle_event("filter", %{"search" => search_term, "category" => category, "min_price" => min_price, "max_price" => max_price, "location" => location}, socket) do
@@ -132,7 +138,8 @@ end
       <!-- Search Results -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <%= for item <- @items do %>
-          <div class="bg-white p-4 rounded shadow">
+          <div class="bg-white p-4 rounded shadow"
+          style="cursor: pointer;"phx-click={JS.push("div_clicked", value: %{id: item.id})}>
             <%= if item.images !=nil && length(item.images) > 0 do %>
               <img src={hd(item.images).dataUrl} />
             <% end %>
