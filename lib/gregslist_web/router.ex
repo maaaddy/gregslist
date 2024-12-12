@@ -34,13 +34,6 @@ defmodule GregslistWeb.Router do
     live "/detail", ItemController, :detail
     live "/details", ItemController, :details
     live "/items/:id/edit", ItemLive.Index, :edit
-
-    live "/furniture", ItemLive.Furniture
-    live "/clothes", ItemLive.Clothes
-    live "/technology", ItemLive.Technology
-    live "/vehicles", ItemLive.Vehicles
-    live "/other", ItemLive.Other
-
     live "/items/:id", ItemLive.Show, :show
     live "/items/:id/show/edit", ItemLive.Show, :edit
   end
@@ -95,6 +88,11 @@ defmodule GregslistWeb.Router do
       live "/chat", ChatLive.Index, :index
       live "/myitems", ItemLive.Myitems
       live "/business", ItemLive.Business
+      live "/furniture", ItemLive.Furniture
+    live "/clothes", ItemLive.Clothes
+    live "/technology", ItemLive.Technology
+    live "/vehicles", ItemLive.Vehicles
+    live "/other", ItemLive.Other
       live "/search", SearchLive
       live "/users", UserListLive.Index, :index
       live "/user_chat/:recipient_id", UserChatLive.Index, :index
