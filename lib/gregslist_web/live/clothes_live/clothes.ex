@@ -5,28 +5,76 @@ defmodule GregslistWeb.ItemLive.Clothes do
 
   @impl true
   def mount(_params, _session, socket) do
-    clothes_items =
-      Galleries.list_items()
-      |> Enum.filter(&(&1.categories == "clothes"))
-      |> Repo.preload(:user)
+    IO.inspect(socket.assigns, label: "Socket assigns at mount start")
+    user = socket.assigns[:current_user]
 
-    {:ok, assign(socket, clothes_items: clothes_items, sort_order: "asc")}
+    if user do
+      IO.inspect(user, label: "Current user")
+
+      clothes_items =
+        Galleries.list_items()
+        |> Enum.filter(&(&1.categories == "clothes"))
+        |> Repo.preload(:user)
+
+      clothes_items = Enum.filter(clothes_items, fn item ->
+        filter_by_age_restrictions(item, user)
+      end)
+
+      {:ok, assign(socket, clothes_items: clothes_items, sort_order: "asc", user: user)}
+    else
+      IO.puts("No current_user found in socket.assigns")
+      {:ok, assign(socket, user: nil, clothes_items: [])}
+    end
+  end
+
+   defp filter_by_age_restrictions(item, user) do
+    case user.dob do
+      nil -> false  # If no DOB, filter out the item
+      dob ->
+        age = calculate_age(dob)
+        cond do
+          item.restricted_21 -> age >= 21
+          item.restricted_18 -> age >= 18
+          true -> true
+        end
+    end
+  end
+
+  defp calculate_age(dob) do
+    today = Date.utc_today()
+    years_difference = today.year - dob.year
+    if Date.compare(today, %{dob | year: today.year}) == :lt do
+      years_difference - 1
+    else
+      years_difference
+    end
   end
 
   @impl true
   def handle_event("sort", %{"sort_order" => sort_order}, socket) do
-    clothes_items =
-      Galleries.list_items(sort_order)
-      |> Enum.filter(&(&1.categories == "clothes"))
-      |> Repo.preload(:user)
+    user = socket.assigns[:user]
 
-    {:noreply, assign(socket, clothes_items: clothes_items, sort_order: sort_order)}
+    if user do
+      clothes_items =
+        Galleries.list_items(sort_order)
+        |> Enum.filter(&(&1.categories == "clothes"))
+        |> Repo.preload(:user)
+
+      
+      clothes_items = Enum.filter(clothes_items, fn item ->
+        filter_by_age_restrictions(item, user)
+      end)
+
+      {:noreply, assign(socket, clothes_items: clothes_items, sort_order: sort_order)}
+    else
+      {:noreply, socket}
+    end
   end
 
-def handle_event("div_clicked", %{"id" => item_id}, socket) do
+  @impl true
+  def handle_event("div_clicked", %{"id" => item_id}, socket) do
     IO.puts("Div was clicked! Item ID: #{item_id}")
 
-  {:noreply, push_redirect(socket, to: ~p"/items/#{item_id}/detail")}
+    {:noreply, push_redirect(socket, to: ~p"/items/#{item_id}/detail")}
   end
-
 end
