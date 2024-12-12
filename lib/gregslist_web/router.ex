@@ -25,22 +25,21 @@ defmodule GregslistWeb.Router do
     get "/photo/:id", PageController, :photo
     get "/categories", PageController, :categories
     get "/items/:id/detail", ItemController, :detail
-
+    get "/items/:id/details", ItemController, :details
 
     post "/listingphoto", ImageApi, :add_image
 
     resources "/items", ItemController
     live "/new", ItemLive.Index, :new
     live "/detail", ItemController, :detail
+    live "/details", ItemController, :details
     live "/items/:id/edit", ItemLive.Index, :edit
 
     live "/furniture", ItemLive.Furniture
     live "/clothes", ItemLive.Clothes
-    live "/business", ItemLive.Business
     live "/technology", ItemLive.Technology
     live "/vehicles", ItemLive.Vehicles
     live "/other", ItemLive.Other
-    live "/search", SearchLive
 
     live "/items/:id", ItemLive.Show, :show
     live "/items/:id/show/edit", ItemLive.Show, :edit
@@ -95,6 +94,8 @@ defmodule GregslistWeb.Router do
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
       live "/chat", ChatLive.Index, :index
       live "/myitems", ItemLive.Myitems
+      live "/business", ItemLive.Business
+      live "/search", SearchLive
       live "/users", UserListLive.Index, :index
       live "/user_chat/:recipient_id", UserChatLive.Index, :index
       live "/users/profile", UserProfileLive.Index, :index
