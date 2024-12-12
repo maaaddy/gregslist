@@ -61,9 +61,7 @@ end
   end
 
   def edit(conn, %{"id" => id}) do
-    item =
-      Repo.get!(Gregslist.Galleries.Item, id)
-      |> Repo.preload(:images)
+    item = Galleries.get_item!(id) |> Repo.preload(:images)
     changeset = Galleries.change_item(item)
     render(conn, :edit, item: item, changeset: changeset)
   end
