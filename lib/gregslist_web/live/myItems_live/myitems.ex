@@ -57,13 +57,10 @@ defmodule GregslistWeb.ItemLive.Myitems do
           style="cursor: pointer;"phx-click={JS.push("div_clicked", value: %{id: item.id})}>
         <div class="flex justify-between items-center mb-4">
          <h3 class="font-semibold text-xl text-indigo-600"><%= item.item_name %></h3>
-          <button
-          phx-click="delete_item"
-          phx-value-id={item.id}
-          class="text-red-600 hover:text-red-800 font-semibold"
-          >
-          Delete
-        </button>
+         <.link href={~p"/items/#{item}"} method="delete" data-confirm="Are you sure?" class="font-bold"
+         >
+           Delete
+        </.link>
       </div>
       <%= if item.images != nil && length(item.images) > 0 do %>
         <img

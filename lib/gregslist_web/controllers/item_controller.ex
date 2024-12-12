@@ -28,7 +28,7 @@ defmodule GregslistWeb.ItemController do
       {:ok, item} ->
         conn
         |> put_flash(:info, "item created successfully.")
-        |> redirect(to: "/items")
+        |> redirect(to: "/myitems")
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
@@ -61,7 +61,7 @@ end
   end
 
   def edit(conn, %{"id" => id}) do
-    item = Galleries.get_item!(id)
+    item = Galleries.get_item!(id) |> Repo.preload(:images)
     changeset = Galleries.change_item(item)
     render(conn, :edit, item: item, changeset: changeset)
   end
@@ -73,7 +73,7 @@ end
       {:ok, item} ->
         conn
         |> put_flash(:info, "item updated successfully.")
-        |> redirect(to: ~p"/items/#{item}")
+        |> redirect(to: ~p"/myitems")
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, :edit, item: item, changeset: changeset)
@@ -86,6 +86,6 @@ end
 
     conn
     |> put_flash(:info, "item deleted successfully.")
-    |> redirect(to: ~p"/items")
+    |> redirect(to: ~p"/myitems")
   end
 end

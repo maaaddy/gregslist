@@ -1,13 +1,18 @@
 
 <.header>
-  item <%= @item.id %>
-  <:subtitle>This is a test record from your database.</:subtitle>
-  <:actions>
-    <.link href={~p"/photo/#{@item}"}>
-      <.button> + Photo</.button>
-    </.link>
-  </:actions>
+  <div class="flex justify-between items-center">
+    <span>Edit item</span>
+    <.link navigate={~p"/photo/#{@item}"}>+ Photo</.link>
+  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-center">
+    <%= for image <- @item.images do %>
+      <img src={image.dataUrl}
+        class="w-full h-80 object-cover rounded mb-4"
+      />
+    <% end %>
+  </div>
 </.header>
+
 <.item_form changeset={@changeset} action={~p"/items/#{@item}"} />
 
 <div>
