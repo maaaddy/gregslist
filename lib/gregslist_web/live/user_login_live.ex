@@ -56,7 +56,13 @@ defmodule GregslistWeb.UserLoginLive do
         </div>
       </.simple_form>
 
-      <p class="text-center mt-4 font-sans">Don't have an account? <a href={~p"/users/register"} class="text-indigo-600 font-semibold hover:underline">Sign up</a></p>
+      <br>
+      <div class="text-center">
+        Don't have an account?
+        <.link navigate={~p"/users/register"} class="font-semibold text-brand hover:underline underline text-blue-700 hover:text-blue-700 visited:text-blue-900">
+            Sign up
+        </.link>
+      </div>
     </div>
     """
   end
