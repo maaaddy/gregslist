@@ -5,40 +5,80 @@ defmodule GregslistWeb.SearchLive do
 
   @impl true
   def mount(_params, _session, socket) do
-    # Fetch all items initially, without any filters applied
-    items = Galleries.list_items()
-    |> Repo.preload(:user)
-    {:ok, assign(socket, items: items, search: nil, category: nil, min_price: nil, max_price: nil, location: nil)}
-  end
+    # Fetch the current user from socket assigns
+    user = socket.assigns[:current_user]
 
-  def handle_event("div_clicked", %{"id" => item_id}, socket) do
-    IO.puts("Div was clicked! Item ID: #{item_id}")
+    if user do
+      IO.inspect(user, label: "Current user")
 
-  {:noreply, push_redirect(socket, to: ~p"/items/#{item_id}/details")}
+      # Fetch all items and apply age restrictions
+      items =
+        Galleries.list_items()
+        |> Repo.preload(:user)
+        |> Enum.filter(&filter_by_age_restrictions(&1, user))
+
+      {:ok, assign(socket, items: items, search: nil, category: nil, min_price: nil, max_price: nil, location: nil, user: user)}
+    else
+      IO.puts("No current_user found in socket.assigns")
+      {:ok, assign(socket, items: [], search: nil, category: nil, min_price: nil, max_price: nil, location: nil, user: nil)}
+    end
   end
 
   @impl true
-  @spec handle_event(<<_::48>>, map(), any()) :: {:noreply, any()}
+  def handle_event("div_clicked", %{"id" => item_id}, socket) do
+    IO.puts("Div was clicked! Item ID: #{item_id}")
+
+    {:noreply, push_redirect(socket, to: ~p"/items/#{item_id}/details")}
+  end
+
+  @impl true
   def handle_event("filter", %{"search" => search_term, "category" => category, "min_price" => min_price, "max_price" => max_price, "location" => location}, socket) do
-    # Parse price inputs and log for debugging
-    IO.inspect(min_price, label: "Min Price Input")
-    IO.inspect(max_price, label: "Max Price Input")
+    user = socket.assigns[:user]
 
-    min_price = parse_price(min_price)
-    max_price = parse_price(max_price)
+    if user do
+      # Parse price inputs
+      min_price = parse_price(min_price)
+      max_price = parse_price(max_price)
 
-    IO.inspect(min_price, label: "Parsed Min Price")
-    IO.inspect(max_price, label: "Parsed Max Price")
+      # Fetch and filter items based on search criteria and age restrictions
+      items =
+        Galleries.list_items()
+        |> Repo.preload(:user)
+        |> filter_by_name(search_term)
+        |> filter_by_category(category)
+        |> filter_by_price(min_price, max_price)
+        |> filter_by_location(location)
+        |> Enum.filter(&filter_by_age_restrictions(&1, user))
 
-    # Fetch and filter items based on category and price range
-    items = Galleries.list_items()
-           |> filter_by_name(search_term)
-           |> filter_by_category(category)
-           |> filter_by_price(min_price, max_price)
-           |> filter_by_location(location)
+      {:noreply, assign(socket, items: items, search: search_term, category: category, min_price: min_price, max_price: max_price, location: location)}
+    else
+      {:noreply, socket}
+    end
+  end
 
-    # Update socket with the filtered items and filter parameters
-    {:noreply, assign(socket, items: items, search: search_term, category: category, min_price: min_price, max_price: max_price, location: location)}
+  # Helper function to filter items by age restrictions
+  defp filter_by_age_restrictions(item, user) do
+    case user.dob do
+      nil -> false  # If no DOB, filter out the item
+      dob ->
+        age = calculate_age(dob)
+        cond do
+          item.restricted_21 -> age >= 21
+          item.restricted_18 -> age >= 18
+          true -> true
+        end
+    end
+  end
+
+  # Helper function to calculate age
+  defp calculate_age(dob) do
+    today = Date.utc_today()
+    years_difference = today.year - dob.year
+    if Date.compare(today, %{dob | year: today.year}) == :lt do
+      years_difference - 1
+    else
+      years_difference
+    end
   end
 
   # Helper function to parse price values
@@ -64,21 +104,22 @@ defmodule GregslistWeb.SearchLive do
   end
 
   # Helper function to filter items by location with partial match
-defp filter_by_location(items, nil), do: items
-defp filter_by_location(items, ""), do: items
-defp filter_by_location(items, location) do
-  Enum.filter(items, fn item ->
-    String.contains?(String.downcase(item.location || ""), String.downcase(location))
-  end)
-end
+  defp filter_by_location(items, nil), do: items
+  defp filter_by_location(items, ""), do: items
+  defp filter_by_location(items, location) do
+    Enum.filter(items, fn item ->
+      String.contains?(String.downcase(item.location || ""), String.downcase(location))
+    end)
+  end
 
-
+  # Helper function to filter items by name with partial match
   defp filter_by_name(items, ""), do: items
   defp filter_by_name(items, search_term) do
-  Enum.filter(items, fn item ->
-    String.contains?(String.downcase(item.item_name), String.downcase(search_term))
-  end)
-end
+    Enum.filter(items, fn item ->
+      String.contains?(String.downcase(item.item_name), String.downcase(search_term))
+    end)
+  end
+
 
   @impl true
   def render(assigns) do
@@ -139,7 +180,7 @@ end
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <%= for item <- @items do %>
           <div class="bg-white p-4 rounded shadow"
-          style="cursor: pointer;"phx-click={JS.push("div_clicked", value: %{id: item.id})}>
+              style="cursor: pointer;" phx-click={JS.push("div_clicked", value: %{id: item.id})}>
             <%= if item.images !=nil && length(item.images) > 0 do %>
               <img src={hd(item.images).dataUrl}
                 class="w-full h-40 object-cover rounded mb-4"
