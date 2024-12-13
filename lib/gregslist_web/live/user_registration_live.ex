@@ -6,9 +6,9 @@ defmodule GregslistWeb.UserRegistrationLive do
 
   def render(assigns) do
     ~H"""
-    <div class="mx-auto max-w-sm bg-gray-100 p-10 rounded-lg shadow-md relative">
+    <div class="mx-auto max-w-sm bg-white p-10 rounded-lg shadow-md relative">
       <div class="absolute inset-x-0 top-[-40px] flex justify-center">
-        <div class="w-20 h-20 bg-indigo-600 text-white rounded-full flex items-center justify-center overflow-hidden border-4 border-gray-100">
+        <div class="w-20 h-20 bg-pink-300 text-white rounded-full flex items-center justify-center overflow-hidden border-4 border-gray-100">
           <svg width="30px" height="28px" viewBox="-5 -0.5 25 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
             <title>communication / 9 - communication, account, add, person, profile, user icon</title>
             <g id="Free-Icons" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
@@ -47,41 +47,41 @@ defmodule GregslistWeb.UserRegistrationLive do
           type="email"
           label="Email"
           required
-          class="border rounded-md px-4 py-2 w-full focus:ring-indigo-500 focus:border-indigo-500 font-sans"
+          class="border rounded-md px-4 py-2 w-full focus:ring-pink-500 focus:border-pink-500 font-sans"
         />
         <.input
           field={@form[:password]}
           type="password"
           label="Password"
           required
-          class="border rounded-md px-4 py-2 w-full focus:ring-indigo-500 focus:border-indigo-500 font-sans"
+          class="border rounded-md px-4 py-2 w-full focus:ring-pink-500 focus:border-pink-500 font-sans"
         />
         <.input
           field={@form[:username]}
           type="text"
           label="Username"
           required
-          class="border rounded-md px-4 py-2 w-full focus:ring-indigo-500 focus:border-indigo-500 font-sans"
+          class="border rounded-md px-4 py-2 w-full focus:ring-pink-500 focus:border-pink-500 font-sans"
         />
         <.input
           field={@form[:dob]}
           type="date"
           label="Date of Birth"
           required
-          class="border rounded-md px-4 py-2 w-full focus:ring-indigo-500 focus:border-indigo-500 font-sans"
+          class="border rounded-md px-4 py-2 w-full focus:ring-pink-500 focus:border-pink-500 font-sans"
         />
         <.input
           field={@form[:zipcode]}
           type="text"
           label="Zipcode"
           required
-          class="border rounded-md px-4 py-2 w-full focus:ring-indigo-500 focus:border-indigo-500 font-sans"
+          class="border rounded-md px-4 py-2 w-full focus:ring-pink-500 focus:border-pink-500 font-sans"
         />
 
         <div class="text-center">
           <.button
             phx-disable-with="Creating account..."
-            class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded w-full font-sans">
+            class="bg-pink-400 hover:bg-pink-500 text-white font-bold py-2 px-4 rounded w-full font-sans">
             Create an account
           </.button>
         </div>
@@ -90,7 +90,7 @@ defmodule GregslistWeb.UserRegistrationLive do
       <br>
       <div class="text-center">
         Already Registered?
-        <.link navigate={~p"/users/log_in"} class="font-semibold text-brand hover:underline underline text-blue-700 hover:text-blue-700 visited:text-blue-900">
+        <.link navigate={~p"/users/log_in"} class="font-semibold text-brand hover:underline text-pink-700 hover:text-pink-700 visited:text-pink-900">
           Log in
         </.link>
       </div>

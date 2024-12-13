@@ -1,16 +1,16 @@
 <div class="container mx-auto p-6 max-w-3xl bg-white rounded-lg shadow-lg border border-gray-200">
-  <h1 class="text-3xl font-extrabold text-indigo-700 mb-6 text-center">My Messages</h1>
+  <h1 class="text-3xl font-extrabold text-pink-400 mb-6 text-center">My Messages</h1>
   <%= if length(@open_chats) == 0 do %>
     <p class="text-gray-500 text-center font-semibold">You don't have any open chats right now. Start a conversation!</p>
   <% else %>
     <ul class="space-y-6">
       <%= for user_id <- @open_chats do %>
-        <li class="p-5 bg-gray-50 border border-gray-200 rounded-lg hover:bg-indigo-50 transition-all">
+        <li class="p-5 bg-gray-50 border border-gray-200 rounded-lg hover:bg-pink-50 transition-all">
           <div class="flex justify-between items-center">
             <div>
               <h3 class="font-semibold text-xl text-gray-800">Chat with User <%= user_id %></h3>
             </div>
-            <.link href={'/user_chat/#{user_id}'} class="text-indigo-600 hover:text-indigo-700 font-medium">Open Chat</.link>
+            <.link href={'/user_chat/#{user_id}'} class="text-pink-300 hover:text-pink-400 font-medium">Open Chat</.link>
           </div>
           <p class="text-sm text-gray-600 mt-2 font-medium">Last message will go here (hopefully!)</p>
         </li>

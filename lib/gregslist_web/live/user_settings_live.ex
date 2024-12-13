@@ -8,7 +8,7 @@ defmodule GregslistWeb.UserSettingsLive do
     <div class="container mx-auto px-4 py-8">
       <div class="bg-white p-6 rounded-lg shadow-md">
         <div class="text-center mb-8">
-          <h1 class="text-3xl font-extrabold text-indigo-700 mb-4">Account Settings</h1>
+          <h1 class="text-3xl font-extrabold text-pink-400 mb-4">Account Settings</h1>
           <p class="mt-2 text-gray-600">Edit your account username, zipcode, email, or password.</p>
         </div>
 
@@ -37,7 +37,7 @@ defmodule GregslistWeb.UserSettingsLive do
             Current username: <span class="font-medium text-gray-700"><%= @current_username %></span>
           </label>
           <:actions>
-            <.button phx-disable-with="Changing..." class="w-full bg-blue-600 text-white">Change username</.button>
+            <.button phx-disable-with="Changing..." class="w-full bg-pink-400 text-white">Change username</.button>
           </:actions>
         </.simple_form>
 
@@ -103,7 +103,7 @@ defmodule GregslistWeb.UserSettingsLive do
             class="block w-full"
           />
           <:actions>
-            <.button phx-disable-with="Changing..." class="w-full bg-blue-600 text-white">Change Email</.button>
+            <.button phx-disable-with="Changing..." class="w-full bg-pink-400 text-white">Change Email</.button>
           </:actions>
         </.simple_form>
 
@@ -151,7 +151,7 @@ defmodule GregslistWeb.UserSettingsLive do
             class="block w-full"
           />
           <:actions>
-            <.button phx-disable-with="Changing..." class="w-full bg-blue-600 text-white">Change Password</.button>
+            <.button phx-disable-with="Changing..." class="w-full bg-pink-400 text-white">Change Password</.button>
           </:actions>
         </.simple_form>
       </div>
