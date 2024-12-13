@@ -28,6 +28,7 @@ defmodule GregslistWeb.Router do
     get "/items/:id/details", ItemController, :details
 
     post "/listingphoto", ImageApi, :add_image
+    post "/profilephoto", ImageApi, :add_profile_image
 
     resources "/items", ItemController
     live "/new", ItemLive.Index, :new
