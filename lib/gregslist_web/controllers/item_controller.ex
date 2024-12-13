@@ -36,6 +36,7 @@ defmodule GregslistWeb.ItemController do
 
   def detail(conn, %{"id" => id}) do
     item = Repo.get!(Item, id) |> Repo.preload(:user)
+    |> Repo.preload(:images)
 
     render(conn, "detail.html", item: item)
   end
