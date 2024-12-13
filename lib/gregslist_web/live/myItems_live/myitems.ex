@@ -56,7 +56,7 @@ defmodule GregslistWeb.ItemLive.Myitems do
           <div class="bg-white p-4 rounded shadow relative"
           style="cursor: pointer;"phx-click={JS.push("div_clicked", value: %{id: item.id})}>
         <div class="flex justify-between items-center mb-4">
-         <h3 class="font-semibold text-xl text-indigo-600"><%= item.item_name %></h3>
+         <h3 class="font-semibold text-xl text-pink-400"><%= item.item_name %></h3>
          <.link href={~p"/items/#{item}"} method="delete" data-confirm="Are you sure?" class="font-bold"
          >
            Delete

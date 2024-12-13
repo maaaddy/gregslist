@@ -3,9 +3,9 @@ defmodule GregslistWeb.UserLoginLive do
 
   def render(assigns) do
     ~H"""
-    <div class="mx-auto max-w-sm bg-gray-100 p-10 rounded-lg shadow-md relative">
+    <div class="mx-auto max-w-sm bg-white p-10 rounded-lg shadow-md relative">
       <div class="absolute inset-x-0 top-[-40px] flex justify-center">
-        <div class="w-20 h-20 bg-indigo-600 text-white rounded-full flex items-center justify-center overflow-hidden border-4 border-gray-100">
+        <div class="w-20 h-20 bg-pink-300 text-white rounded-full flex items-center justify-center overflow-hidden border-4 border-gray-100">
           <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
             <title>login</title>
             <desc>Created with sketchtool.</desc>
@@ -50,7 +50,7 @@ defmodule GregslistWeb.UserLoginLive do
         <div class="text-center">
           <.button
             phx-disable-with="Logging in..."
-            class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded w-full font-sans">
+            class="bg-pink-400 hover:bg-pink-500 text-white font-bold py-2 px-4 rounded w-full font-sans">
             Log In
           </.button>
         </div>
@@ -59,7 +59,7 @@ defmodule GregslistWeb.UserLoginLive do
       <br>
       <div class="text-center">
         Don't have an account?
-        <.link navigate={~p"/users/register"} class="font-semibold text-brand hover:underline underline text-blue-700 hover:text-blue-700 visited:text-blue-900">
+        <.link navigate={~p"/users/register"} class="font-semibold text-brand hover:underline underline text-pink-700 hover:text-pink-700 visited:text-pink-900">
             Sign up
         </.link>
       </div>
