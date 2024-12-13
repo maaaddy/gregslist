@@ -121,11 +121,12 @@ defmodule GregslistWeb.SearchLive do
   end
 
 
-  @impl true
-  def render(assigns) do
-    ~H"""
+@impl true
+def render(assigns) do
+  ~H"""
+  <div class="bg-white border-8 border-gray-100 p-15 py-8 px-10 rounded-2xl max-w-screen-full mx-auto">
     <div class="container mx-auto py-8">
-      <h1 class="text-4xl font-semibold text-center text-indigo-600 mb-8">Search Listings</h1>
+      <h1 class="text-4xl font-semibold text-center text-pink-400 mb-8">Search Listings</h1>
 
       <!-- Name Search Input at the top -->
       <form phx-change="filter">
@@ -133,18 +134,18 @@ defmodule GregslistWeb.SearchLive do
           <div class="flex space-x-4 justify-center">
             <div class="w-full md:w-1/2">
               <label for="search" class="text-gray-700 sr-only">Search by Name</label>
-              <input type="text" id="search" name="search" value={@search || ""} placeholder="Search by name..." class="border p-2 rounded w-full" />
+              <input type="text" id="search" name="search" value={@search || ""} placeholder="Search by name..." class="border p-2 rounded w-full focus:outline-none focus:ring-3 focus:ring-pink-400" />
             </div>
           </div>
         </div>
 
         <!-- Filters Section -->
-        <div class="space-y-4 mb-8">
-          <div class="flex space-x-4">
+        <div class="bg-gray-50 p-4 rounded-lg shadow-md">
+          <div class="flex flex-wrap gap-4 justify-between">
             <!-- Category Filter Dropdown -->
-            <div>
-              <label for="category" class="text-gray-700">Category</label>
-              <select id="category" name="category" class="border p-2 rounded">
+            <div class="w-full sm:w-1/4">
+              <label for="category" class="text-gray-700 font-semibold mb-2 block">Category</label>
+              <select id="category" name="category" class="border p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-pink-400">
                 <option value="">All</option>
                 <option value="technology" selected={@category == "technology"}>Technology</option>
                 <option value="furniture" selected={@category == "furniture"}>Furniture</option>
@@ -156,47 +157,45 @@ defmodule GregslistWeb.SearchLive do
             </div>
 
             <!-- Min Price Input -->
-            <div>
-              <label for="min_price" class="text-gray-700">Min Price</label>
-              <input type="number" id="min_price" name="min_price" value={@min_price || ""} class="border p-2 rounded" placeholder="Min Price" />
+            <div class="w-full sm:w-1/5">
+              <label for="min_price" class="text-gray-700 font-semibold mb-2 block">Min Price</label>
+              <input type="number" id="min_price" name="min_price" value={@min_price || ""} class="border p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-pink-400" placeholder="Min Price" />
             </div>
 
             <!-- Max Price Input -->
-            <div>
-              <label for="max_price" class="text-gray-700">Max Price</label>
-              <input type="number" id="max_price" name="max_price" value={@max_price || ""} class="border p-2 rounded" placeholder="Max Price" />
+            <div class="w-full sm:w-1/5">
+              <label for="max_price" class="text-gray-700 font-semibold mb-2 block">Max Price</label>
+              <input type="number" id="max_price" name="max_price" value={@max_price || ""} class="border p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-pink-400" placeholder="Max Price" />
             </div>
 
             <!-- Location Filter Input -->
-            <div>
-              <label for="location" class="text-gray-700">Location</label>
-              <input type="text" id="location" name="location" value={@location || ""} class="border p-2 rounded" placeholder="Location" />
+            <div class="w-full sm:w-1/4">
+              <label for="location" class="text-gray-700 font-semibold mb-2 block">Location</label>
+              <input type="text" id="location" name="location" value={@location || ""} class="border p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-pink-400" placeholder="Location" />
             </div>
           </div>
         </div>
       </form>
 
       <!-- Search Results -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
         <%= for item <- @items do %>
           <div class="bg-white p-4 rounded shadow"
               style="cursor: pointer;" phx-click={JS.push("div_clicked", value: %{id: item.id})}>
-            <%= if item.images !=nil && length(item.images) > 0 do %>
+            <%= if item.images != nil && length(item.images) > 0 do %>
               <img src={hd(item.images).dataUrl}
                 class="w-full h-40 object-cover rounded mb-4"
                 alt="Item Image"
-               />
+              />
             <% end %>
-            <h3 class="font-semibold text-xl text-indigo-600"><%= item.item_name %></h3>
-            <p class="text-gray-600"><%= item.user.username %></p>
-            <p class="text-gray-600"><%= item.desc %></p>
-            <p class="text-green-600 font-semibold">$<%= item.price %></p>
-            <p class="text-gray-500">Category: <%= item.categories %></p>
-            <p class="text-gray-500">Location: <%= item.location %></p>
+            <h3 class="font-semibold text-xl text-pink-400"><%= item.item_name %></h3>
+            <p class="text-black-600 font-semibold">$<%= item.price %></p>
           </div>
         <% end %>
       </div>
     </div>
-    """
+  </div>
+  """
 end
+
 end
