@@ -195,6 +195,14 @@ def render(assigns) do
       </div>
     </div>
   </div>
+  <footer>
+<h2 class="text-xl font-medium text-black-800 flex items-center ml-2 mt-8">
+      <a href="/gregslist">
+        <span class="mr-1">←</span>
+        Back to Categories
+      </a>
+    </h2>
+</footer>
   """
 end
 
