@@ -74,11 +74,8 @@ defmodule GregslistWeb.ItemLive.Myitems do
       </div>
     <% end %>
 
-    <p class="text-gray-600"><%= item.user.username %></p>
-    <p class="text-gray-600"><%= item.desc %></p>
-    <p class="text-green-600 font-semibold">$<%= item.price %></p>
+    <p class="text-black-600 font-semibold">$<%= item.price %></p>
     <p class="text-gray-500">Category: <%= item.categories %></p>
-    <p class="text-gray-500">Location: <%= item.location %></p>
     </div>
 
         <% end %>

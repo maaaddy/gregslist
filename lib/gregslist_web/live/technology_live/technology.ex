@@ -29,7 +29,7 @@ defmodule GregslistWeb.ItemLive.Technology do
 
    defp filter_by_age_restrictions(item, user) do
     case user.dob do
-      nil -> false  # If no DOB, filter out the item
+      nil -> false  
       dob ->
         age = calculate_age(dob)
         cond do
