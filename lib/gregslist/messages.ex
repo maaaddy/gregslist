@@ -27,6 +27,16 @@ defmodule Gregslist.Messages do
     %Message{}
     |> Message.changeset(attrs)
     |> Repo.insert()
+    |> case do
+      {:ok, message} ->
+        # Broadcast the new message event to a topic
+        topic = "messages:#{message.receiver_id}"
+        Phoenix.PubSub.broadcast(Gregslist.PubSub, topic, {:new_message, message})
+        {:ok, message}
+
+      {:error, changeset} ->
+        {:error, changeset}
+    end
   end
 
   #Sorta borrowed and changed one of the functions from galleries.ex for this

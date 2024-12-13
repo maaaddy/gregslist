@@ -7,11 +7,11 @@
           Listed by 
           <span class="font-semibold"><%= @item.user.username %></span>
         </p>
-        <p class="mt-2 text-indigo-500">
+        <p class="mt-2 text-pink-400">
           About <%= @item.user.username %>: <%= @item.user.about_me || "No details provided." %>
         </p>
         <a href={"/user_chat/#{@item.user.id}"}
-          class="mt-4 inline-block bg-white text-indigo-600 px-5 py-2 rounded-md shadow hover:bg-indigo-100 transition"
+          class="mt-4 inline-block bg-white text-pink-400 px-5 py-2 rounded-md shadow hover:bg-pink-100 transition"
         >
           Contact Seller
         </a>
@@ -24,7 +24,7 @@
   <div class="max-w-4xl mx-auto px-6 py-12">
     <!-- Item Details Section -->
     <div class="bg-white shadow rounded-lg p-6">
-      <h1 class="text-4xl font-extrabold mb-2 text-indigo-700"><%= @item.item_name %></h1>
+      <h1 class="text-4xl font-extrabold mb-2 text--300"><%= @item.item_name %></h1>
       <p class="text-gray-700 text-lg mb-6"><%= @item.desc %></p>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-center">
@@ -38,14 +38,14 @@
       
       <div class="text-left">
         <h3 class="text-3xl font-bold text-black">$<%= @item.price %></h3>
-        <p class="text-gray-500 mt-1">Price</p>
+        <p class="text-gray-400 mt-1">Price</p>
       </div>
     </div>
 
     <div class="mt-8 flex items-center">
   <.link 
-    navigate={~p"/search"}
-    class="flex items-center text-indigo-600 font-medium hover:underline"
+    navigate={~p"/search"} 
+    class="flex items-center text-pink-400 font-medium hover:underline"
   >
 
     <svg 
