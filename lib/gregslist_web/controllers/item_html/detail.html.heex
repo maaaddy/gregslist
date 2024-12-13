@@ -25,10 +25,17 @@
       <h1 class="text-4xl font-extrabold mb-2 text--300"><%= @item.item_name %></h1>
       <p class="text-gray-700 text-lg mb-6"><%= @item.desc %></p>
 
-      <div class="bg-gray-100 h-64 flex items-center justify-center rounded-lg mb-6">
-        <span class="text-gray-400 text-sm">Picture placeholder (add an image here)</span>
-      </div>
-
+      <%= if @item.images != nil && length(@item.images) > 0 do %>
+      <img
+      src={hd(@item.images).dataUrl}
+      class="w-full h-40 object-cover rounded mb-4"
+      alt="Item Image"
+      />
+    <% else %>
+    <div class="w-full h-40 bg-gray-100 flex items-center justify-center rounded mb-4">
+      <span class="text-gray-400">No Image Available</span>
+    </div>
+  <% end %>
       
       <div class="text-left">
         <h3 class="text-3xl font-bold text-black">$<%= @item.price %></h3>
