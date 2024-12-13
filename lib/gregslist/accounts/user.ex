@@ -47,6 +47,19 @@ defmodule Gregslist.Accounts.User do
     |> validate_password(opts)
   end
 
+  def profile_pic_url_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:profile_pic_url])
+    |> validate_required([:profile_pic_url])
+    |> validate_format(:profile_pic_url, ~r/^data:image\/\w+;base64,/, message: "Invalid image data")
+  end
+
+defp validate_profile_pic_url(changeset) do
+  changeset
+  |> validate_format(:profile_pic_url, ~r/^https?:\/\/[^\s]+$/, message: "must be a valid URL starting with http or https")
+  |> validate_length(:profile_pic_url, max: 255)
+end
+
   def about_me_changeset(user, about_me_params) do
     user
     |> cast(about_me_params, [:about_me])

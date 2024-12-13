@@ -16,15 +16,6 @@
           Contact Seller
         </a>
       </div>
-
-      <div class="flex-shrink-0">
-        <img 
-          id="profile-pic-preview" 
-          src="#" 
-          alt="Profile Picture" 
-          class="object-cover w-20 h-20 rounded-full border-2 border-indigo-600 shadow"
-        />
-      </div>
     </div>
   </div>
 
@@ -36,8 +27,12 @@
       <h1 class="text-4xl font-extrabold mb-2 text-indigo-700"><%= @item.item_name %></h1>
       <p class="text-gray-700 text-lg mb-6"><%= @item.desc %></p>
 
-      <div class="bg-gray-100 h-64 flex items-center justify-center rounded-lg mb-6">
-        <span class="text-gray-400 text-sm">Picture placeholder (add an image here)</span>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-center">
+        <%= for image <- @item.images do %>
+          <img src={image.dataUrl}
+            class="w-full h-80 object-cover rounded mb-4"
+          />
+        <% end %>
       </div>
 
       
