@@ -5,158 +5,178 @@ defmodule GregslistWeb.UserSettingsLive do
 
   def render(assigns) do
     ~H"""
-    <div class="container mx-auto px-4 py-8">
-      <div class="bg-white p-6 rounded-lg shadow-md">
-        <div class="text-center mb-8">
-          <h1 class="text-3xl font-extrabold text-pink-400 mb-4">Account Settings</h1>
-          <p class="mt-2 text-gray-600">Edit your account username, zipcode, email, or password.</p>
+    <body class="bg-gray-50">
+      <div class="relative w-full h-max-screen bg-cover bg-center pt-16" style="background-image: url('/images/shopping.jpeg');">
+        <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+
+        <div class="relative z-10 mx-auto max-w-3xl p-8 rounded-2xl shadow-xl bg-white bg-opacity-90">
+
+          <h2 class="text-xl font-medium text-gray-800 flex items-center ml-2 mb-6">
+            <a href="/gregslist">
+              <span class="mr-1">←</span>
+              Back to Categories
+            </a>
+          </h2>
+
+          <h1 class="text-3xl font-extrabold text-center text-teal-600 mb-5 mt-6 font-bold">
+            Account Settings
+          </h1>
+          <hr class="border-gray-300 mb-8">
+
+          <div class="space-y-8">
+            <div>
+              <h3 class="text-xl font-semibold text-gray-700">Edit Username</h3>
+              <.simple_form
+                for={@username_form}
+                id="username_form"
+                phx-change="validate_username"
+                phx-submit="update_username"
+                class="space-y-6 mt-4"
+              >
+                <.input
+                  field={@username_form[:username]}
+                  type="text"
+                  label="New username"
+                  required
+                  class="block w-full"
+                />
+                <.input
+                  field={@username_form[:username_confirmation]}
+                  type="text"
+                  label="Confirm new username"
+                  class="block w-full"
+                />
+                <label id="current_username_for_username" class="block text-sm text-gray-500">
+                  Current username: <span class="font-medium text-gray-700"><%= @current_username %></span>
+                </label>
+                <:actions>
+                  <.button phx-disable-with="Changing..." class="w-full bg-teal-600 text-white">Change username</.button>
+                </:actions>
+              </.simple_form>
+            </div>
+
+            <hr class="my-6 border-t border-gray-400" />
+
+            <div>
+              <h3 class="text-xl font-semibold text-gray-700">Change Zipcode</h3>
+              <.simple_form
+                for={@zipcode_form}
+                id="zipcode_form"
+                phx-change="validate_zipcode"
+                phx-submit="update_zipcode"
+                class="space-y-6 mt-4"
+              >
+                <.input
+                  field={@zipcode_form[:zipcode]}
+                  type="text"
+                  label="New zipcode"
+                  maxlength="5"
+                  required
+                  class="block w-full"
+                />
+                <.input
+                  field={@zipcode_form[:zipcode_confirmation]}
+                  type="text"
+                  label="Confirm new zipcode"
+                  class="block w-full"
+                />
+                <label id="current_zipcode_for_zipcode" class="block text-sm text-gray-500">
+                  Current zipcode: <span class="font-medium text-gray-700"><%= @current_zipcode %></span>
+                </label>
+                <:actions>
+                  <.button phx-disable-with="Changing..." class="w-full bg-teal-600 text-white">Change zipcode</.button>
+                </:actions>
+              </.simple_form>
+            </div>
+
+            <hr class="my-6 border-t border-gray-400" />
+
+            <div>
+              <h3 class="text-xl font-semibold text-gray-700">Change Email</h3>
+              <.simple_form
+                for={@email_form}
+                id="email_form"
+                phx-submit="update_email"
+                phx-change="validate_email"
+                class="space-y-6 mt-4"
+              >
+                <.input
+                  field={@email_form[:email]}
+                  type="email"
+                  label="New email"
+                  required
+                  class="block w-full"
+                />
+                <.input
+                  field={@email_form[:current_password]}
+                  name="current_password"
+                  id="current_password_for_email"
+                  type="password"
+                  label="Current password"
+                  value={@email_form_current_password}
+                  required
+                  class="block w-full"
+                />
+                <:actions>
+                  <.button phx-disable-with="Changing..." class="w-full bg-teal-600 text-white">Change Email</.button>
+                </:actions>
+              </.simple_form>
+            </div>
+
+            <hr class="my-6 border-t border-gray-400" />
+
+            <div>
+              <h3 class="text-xl font-semibold text-gray-700">Change Password</h3>
+              <.simple_form
+                for={@password_form}
+                id="password_form"
+                action={~p"/users/log_in?_action=password_updated"}
+                method="post"
+                phx-change="validate_password"
+                phx-submit="update_password"
+                phx-trigger-action={@trigger_submit}
+                class="space-y-6 mt-4"
+              >
+                <input
+                  name={@password_form[:email].name}
+                  type="hidden"
+                  id="hidden_user_email"
+                  value={@current_email}
+                />
+                <.input
+                  field={@password_form[:password]}
+                  type="password"
+                  label="New password"
+                  required
+                  class="block w-full"
+                />
+                <.input
+                  field={@password_form[:password_confirmation]}
+                  type="password"
+                  label="Confirm new password"
+                  class="block w-full"
+                />
+                <.input
+                  field={@password_form[:current_password]}
+                  name="current_password"
+                  type="password"
+                  label="Current password"
+                  id="current_password_for_password"
+                  value={@current_password}
+                  required
+                  class="block w-full"
+                />
+                <:actions>
+                  <.button phx-disable-with="Changing..." class="w-full bg-teal-600 text-white">Change Password</.button>
+                </:actions>
+              </.simple_form>
+            </div>
+          </div>
         </div>
-
-        <.simple_form
-          for={@username_form}
-          id="username_form"
-          phx-change="validate_username"
-          phx-submit="update_username"
-          class="space-y-6 mt-8"
-        >
-          <h3 class="text-xl font-semibold text-gray-700">Edit Username</h3>
-          <.input
-            field={@username_form[:username]}
-            type="text"
-            label="New username"
-            required
-            class="block w-full"
-          />
-          <.input
-            field={@username_form[:username_confirmation]}
-            type="text"
-            label="Confirm new username"
-            class="block w-full"
-          />
-          <label id="current_username_for_username" class="block text-sm text-gray-500">
-            Current username: <span class="font-medium text-gray-700"><%= @current_username %></span>
-          </label>
-          <:actions>
-            <.button phx-disable-with="Changing..." class="w-full bg-pink-400 text-white">Change username</.button>
-          </:actions>
-        </.simple_form>
-
-        <!-- Thin Line Separator -->
-        <hr class="my-6 border-t border-gray-400" />
-
-        <.simple_form
-          for={@zipcode_form}
-          id="zipcode_form"
-          phx-change="validate_zipcode"
-          phx-submit="update_zipcode"
-          class="space-y-6 mt-8"
-        >
-          <h3 class="text-xl font-semibold text-gray-700">Change Zipcode</h3>
-          <.input
-            field={@zipcode_form[:zipcode]}
-            type="text"
-            label="New zipcode"
-            maxlength="5"
-            required
-            class="block w-full"
-          />
-          <.input
-            field={@zipcode_form[:zipcode_confirmation]}
-            type="text"
-            label="Confirm new zipcode"
-            class="block w-full"
-          />
-          <label id="current_zipcode_for_zipcode" class="block text-sm text-gray-500">
-            Current zipcode: <span class="font-medium text-gray-700"><%= @current_zipcode %></span>
-          </label>
-          <:actions>
-            <.button phx-disable-with="Changing..." class="w-full bg-blue-600 text-white">Change zipcode</.button>
-          </:actions>
-        </.simple_form>
-
-        <!-- Thin Line Separator -->
-        <hr class="my-6 border-t border-gray-400" />
-
-        <.simple_form
-          for={@email_form}
-          id="email_form"
-          phx-submit="update_email"
-          phx-change="validate_email"
-          class="space-y-6 mt-8"
-        >
-          <h3 class="text-xl font-semibold text-gray-700">Change Email</h3>
-          <.input
-            field={@email_form[:email]}
-            type="email"
-            label="New email"
-            required
-            class="block w-full"
-          />
-          <.input
-            field={@email_form[:current_password]}
-            name="current_password"
-            id="current_password_for_email"
-            type="password"
-            label="Current password"
-            value={@email_form_current_password}
-            required
-            class="block w-full"
-          />
-          <:actions>
-            <.button phx-disable-with="Changing..." class="w-full bg-pink-400 text-white">Change Email</.button>
-          </:actions>
-        </.simple_form>
-
-        <!-- Thin Line Separator -->
-        <hr class="my-6 border-t border-gray-400" />
-
-        <.simple_form
-          for={@password_form}
-          id="password_form"
-          action={~p"/users/log_in?_action=password_updated"}
-          method="post"
-          phx-change="validate_password"
-          phx-submit="update_password"
-          phx-trigger-action={@trigger_submit}
-          class="space-y-6 mt-8"
-        >
-          <h3 class="text-xl font-semibold text-gray-700">Change Password</h3>
-          <input
-            name={@password_form[:email].name}
-            type="hidden"
-            id="hidden_user_email"
-            value={@current_email}
-          />
-          <.input
-            field={@password_form[:password]}
-            type="password"
-            label="New password"
-            required
-            class="block w-full"
-          />
-          <.input
-            field={@password_form[:password_confirmation]}
-            type="password"
-            label="Confirm new password"
-            class="block w-full"
-          />
-          <.input
-            field={@password_form[:current_password]}
-            name="current_password"
-            type="password"
-            label="Current password"
-            id="current_password_for_password"
-            value={@current_password}
-            required
-            class="block w-full"
-          />
-          <:actions>
-            <.button phx-disable-with="Changing..." class="w-full bg-pink-400 text-white">Change Password</.button>
-          </:actions>
-        </.simple_form>
       </div>
-    </div>
-    """
+    </body>
+  """
+
   end
 
 

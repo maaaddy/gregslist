@@ -1,33 +1,36 @@
-<div id="chat-container" class="p-6 space-y-6 bg-white rounded-lg shadow-lg">
-  <h2 class="text-2xl font-bold text-gray-800 mb-4">Chat with <span class="text-pink-400"><%= @recipient_name %></span></h2>
+<div id="chat-container" class="relative w-full min-h-screen bg-cover bg-center pt-16" style="background-image: url('/images/shopping.jpeg');">
+  <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+  <div class="relative z-10 mx-auto max-w-3xl p-8 rounded-2xl shadow-xl bg-white bg-opacity-90">
+    <h2 class="text-2xl font-extrabold text-teal-600 mb-4">Chat with <span class="text-teal-700"><%= @recipient_name %></span></h2>
 
-  <div id="messages-list" class="overflow-y-scroll h-80 border-t border-b border-gray-300 p-4 bg-gray-50 rounded-lg">
-    <%= for message <- @messages do %>
-      <div class="mb-4">
-        <strong class="font-semibold text-pink-400"><%= if message.sender_id == @current_user.id, do: "Me", else: @recipient_name %>:</strong>
-        <span class="text-gray-700"><%= message.content %></span>
+    <div id="messages-list" class="overflow-y-scroll h-80 border-t border-b border-gray-300 p-4 bg-gray-50 rounded-lg space-y-4">
+      <%= for message <- @messages do %>
+        <div class="mb-4">
+          <strong class="font-semibold text-teal-700"><%= if message.sender_id == @current_user.id, do: "Me", else: @recipient_name %>:</strong>
+          <span class="text-gray-700"><%= message.content %></span>
 
-        <%= if Map.has_key?(message, :timestamp) do %>
-          <span class="text-xs text-gray-500">(<%= message.timestamp |> Timex.format!("{h12}:{m} {AM}") %>)</span>
-        <% else %>
-          <span class="text-xs text-gray-500">(No timestamp available)</span>
-        <% end %>
-      </div>
-    <% end %>
+          <%= if Map.has_key?(message, :timestamp) do %>
+            <span class="text-xs text-gray-500">(<%= message.timestamp |> Timex.format!("{h12}:{m} {AM}") %>)</span>
+          <% else %>
+            <span class="text-xs text-gray-500">(No timestamp available)</span>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <form phx-submit="send" class="flex space-x-4">
+      <input 
+        type="text" 
+        name="text" 
+        class="flex-grow p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-700 focus:border-transparent" 
+        placeholder="Type your message..." 
+        required 
+      />
+      <button 
+        type="submit" 
+        class="p-4 bg-teal-700 text-white rounded-md hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-700">
+        Send
+      </button>
+    </form>
   </div>
-
-  <form phx-submit="send" class="flex space-x-4">
-    <input 
-      type="text" 
-      name="text" 
-      class="flex-grow p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent" 
-      placeholder="Type your message..." 
-      required 
-    />
-    <button 
-      type="submit" 
-      class="p-4 bg-pink-300 text-white rounded-md hover:bg-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-400">
-      Send
-    </button>
-  </form>
 </div>
