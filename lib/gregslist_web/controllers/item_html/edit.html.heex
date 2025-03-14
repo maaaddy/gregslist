@@ -1,20 +1,33 @@
-
 <.header>
-  <div class="flex justify-between items-center">
-    <span>Edit item</span>
-    <.link navigate={~p"/photo/#{@item}"}>+ Photo</.link>
-  </div>
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-center">
-    <%= for image <- @item.images do %>
-      <img src={image.dataUrl}
-        class="w-full h-80 object-cover rounded mb-4"
-      />
-    <% end %>
+  <div class="bg-cover bg-center min-h-screen" style="background-image: url('/images/shopping.jpeg');">
+    <div class="bg-black bg-opacity-50 min-h-screen">
+      <div class="relative z-10 mx-auto max-w-3xl p-8 rounded-2xl shadow-xl bg-white bg-opacity-90">
+        <h2 class="text-xl font-medium text-gray-800 flex items-center ml-2 mb-6">
+          <a href="/myitems">
+            <span class="mr-1">←</span>
+            Back to Items
+          </a>
+        </h2>
+        <header class="mb-6 p-4">
+          <div class="text-center mb-4">
+            <span class="text-2xl font-bold text-teal-600">Edit Item</span>
+          </div>
+  
+          <div class="text-center mb-6">
+            <.link navigate={~p"/photo/#{@item}"}
+              class="bg-teal-500 hover:bg-teal-600 text-white font-semibold py-2 px-6 rounded-lg shadow-lg">
+              Add Photo
+            </.link>
+          </div>
+        </header>
+  
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 justify-center px-4">
+          <%= for image <- @item.images do %>
+            <img src={image.dataUrl} class="w-full h-80 object-cover rounded-lg shadow-lg mb-4" />
+          <% end %>
+        </div>
+        <.item_form changeset={@changeset} action={~p"/items/#{@item}"} />
+      </div>
+    </div>
   </div>
 </.header>
-
-<.item_form changeset={@changeset} action={~p"/items/#{@item}"} />
-
-<div>
-</div>
-<.link navigate={~p"/myitems"}>Back to items</.link>
